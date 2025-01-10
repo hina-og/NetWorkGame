@@ -4,5 +4,6 @@
 class Runner
 	: public GameObject
 {
+	
 };
 
