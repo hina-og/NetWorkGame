@@ -1,6 +1,6 @@
 #include "PlayScene.h"
 #include "Stage.h"
-#include"Item.h"
+#include "Hunter.h"
 
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
@@ -10,7 +10,7 @@ PlayScene::PlayScene(GameObject* parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Stage>(this);
-	Instantiate<Item>(this);
+	Instantiate<Hunter>(this);
 }
 
 void PlayScene::Update()
