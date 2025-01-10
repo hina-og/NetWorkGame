@@ -31,7 +31,9 @@ void Item::Update()
 void Item::Draw()
 {
 	DrawGraph(0, 0, hEyeIcon_, TRUE);
-	DrawGraph(0, 0, hSpeedUpIcon_, TRUE);
+	DrawBoxAA(0, 0, 40, 40, GetColor(255, 255, 0), FALSE);
+	DrawGraph(40, 40, hSpeedUpIcon_, TRUE);
+	DrawBoxAA(40, 40, 80, 80, GetColor(255, 255, 0), FALSE);
 }
 
 void Item::Release()
