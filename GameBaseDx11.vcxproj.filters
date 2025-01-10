@@ -40,6 +40,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Hunter.cpp" />
     <ClCompile Include="Runner.cpp" />
+    <ClCompile Include="Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\GameObject.h">
@@ -66,5 +67,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Hunter.h" />
     <ClInclude Include="Runner.h" />
+    <ClInclude Include="Item.h" />
   </ItemGroup>
 </Project>
