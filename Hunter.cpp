@@ -26,6 +26,23 @@ void Hunter::Update()
 	{
 		y += 5;
 	}
+
+	if (x < 20)
+	{
+		x = 20;
+	}
+	if(x > 1260)
+	{
+		x = 1260;
+	}
+	if (y < 20)
+	{
+		y = 20;
+	}
+	if (y > 700)
+	{
+		y = 700;
+	}
 }
 
 void Hunter::Draw()
