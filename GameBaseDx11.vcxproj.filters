@@ -37,7 +37,6 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Hunter.cpp" />
     <ClCompile Include="Runner.cpp" />
   </ItemGroup>
@@ -63,7 +62,6 @@
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Stage.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Hunter.h" />
     <ClInclude Include="Runner.h" />
   </ItemGroup>
