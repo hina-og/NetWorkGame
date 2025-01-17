@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Stage.h"
 #include "Hunter.h"
+#include"Item.h"
 
 
 PlayScene::PlayScene(GameObject* parent)
@@ -14,6 +15,7 @@ void PlayScene::Initialize()
 	Instantiate<Camera>(this);
 	Instantiate<Stage>(this);
 	Instantiate<Hunter>(this);
+	Instantiate<Item>(this);
 }
 
 void PlayScene::Update()

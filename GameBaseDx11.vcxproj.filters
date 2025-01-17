@@ -58,6 +58,9 @@
     <ClCompile Include="Stage.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="EyeIcon.cpp" />
+    <ClCompile Include="SpeedUpIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\GameObject.h">
@@ -96,5 +99,8 @@
     <ClInclude Include="Runner.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="EyeIcon.h" />
+    <ClInclude Include="SpeedUpIcon.h" />
   </ItemGroup>
 </Project>

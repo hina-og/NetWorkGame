@@ -67,6 +67,7 @@ void Stage::Initialize()
 			}
 		}
 	}
+	
 }
 
 void Stage::Update()
