@@ -8,27 +8,30 @@ Hunter::Hunter(GameObject* parent)
 
 void Hunter::Initialize()
 {
+	speed_ = 2;
 	x = initPosX;
 	y = initPosY;
 }
 
 void Hunter::Update()
 {
+	Camera* cam = (Camera*)FindObject("Camera");
+
 	if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))
 	{
-		x -= 5;
+		cam->camX += speed_;
 	}
 	if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
 	{
-		x += 5;
+		cam->camX -= speed_;
 	}
 	if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))
 	{
-		y -= 5;
+		cam->camY += speed_;
 	}
 	if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))
 	{
-		y += 5;
+		cam->camY -= speed_;
 	}
 }
 

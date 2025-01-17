@@ -10,6 +10,7 @@
 class Hunter
 	: public GameObject
 {
+	int speed_;
 	int x;
 	int y;
 	const int initPosX = 1280 / 2;

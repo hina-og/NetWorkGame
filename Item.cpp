@@ -1,5 +1,6 @@
 #include "Item.h"
 #include"Stage.h"
+#include "Camera.h"
 
 Item::Item(GameObject* parent) : GameObject(parent,"Item"),hEyeIcon_(-1),hSpeedUpIcon_(-1)
 {
@@ -57,8 +58,10 @@ void Item::Update()
 
 void Item::Draw()
 {
-	DrawGraph(EIconPos_.x, EIconPos_.y, hEyeIcon_, TRUE);
-	DrawGraph(SUIconPos_.x,SUIconPos_.y, hSpeedUpIcon_, TRUE);
+	Camera* cam = (Camera*)FindObject("Camera");
+
+	DrawGraph((EIconPos_.x + cam->camX) * cam->camDist, (EIconPos_.y + cam->camY) * cam->camDist, hEyeIcon_, TRUE);
+	DrawGraph((SUIconPos_.x + cam->camX) * cam->camDist, (SUIconPos_.y + cam->camY) * cam->camDist, hSpeedUpIcon_, TRUE);
 #if 0 //ボックス
 	DrawBoxAA(0, 0, 40, 40, GetColor(255, 255, 0), FALSE);
 	DrawBoxAA(40, 40, 80, 80, GetColor(255, 255, 0), FALSE);
