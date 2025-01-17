@@ -5,8 +5,8 @@ class EyeIcon :
 {
 public:
     EyeIcon(GameObject* parent);
-    ~EyeIcon();
     void Initialize() override;
+    ~EyeIcon();
     void Release() override;
 private:
 };

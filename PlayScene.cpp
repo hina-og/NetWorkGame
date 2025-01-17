@@ -18,8 +18,10 @@ void PlayScene::Initialize()
 	Instantiate<Stage>(this);
 	Instantiate<Hunter>(this);
 	/*Instantiate<Item>(this);*/
-	//Instantiate<EyeIcon>(this);
-	//Instantiate<SpeedUpIcon>(this);
+	for (int i = 0; i < 5; i++) {
+		Instantiate<EyeIcon>(this);
+		Instantiate<SpeedUpIcon>(this);
+	}
 }
 
 void PlayScene::Update()
