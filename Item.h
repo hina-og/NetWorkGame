@@ -9,6 +9,7 @@ class Item :
 {
 protected:
     int hIcon_;
+    std::string fileName_;
     XMINT2 graphSize_;
     XMINT2 position_;
     XMINT2 num_;
@@ -19,25 +20,10 @@ protected:
 public:
     Item(GameObject* parent);
     ~Item();
-    void Initialize() override;
-    void Update() override;
-    void Draw() override;
-    void Release() override;
+    virtual void Initialize() override;
+    virtual void Update() override;
+    virtual void Draw() override;
+    virtual void Release() override;
 private:
-    int hEyeIcon_;
-    int hSpeedUpIcon_;
-
-    XMINT2 EIconPos_;
-    XMINT2 SUIconPos_;
-    XMINT2 EInum_;
-    XMINT2 SUInum_;
-
-    bool IsEIOnLoad_;
-    bool IsSUIOnLoad_;
-
-    bool IsAliveEI_;
-    bool IsAliveSUI_;
-
-    
 };
 
