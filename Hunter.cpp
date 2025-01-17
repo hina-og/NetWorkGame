@@ -1,4 +1,5 @@
 #include "Hunter.h"
+#include "Stage.h"
 
 Hunter::Hunter(GameObject* parent)
 {
@@ -26,6 +27,7 @@ void Hunter::Update()
 	{
 		y += 5;
 	}
+
 }
 
 void Hunter::Draw()

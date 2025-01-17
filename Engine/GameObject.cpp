@@ -217,9 +217,6 @@ GameObject * GameObject::GetRootJob()
 	else return GetParent()->GetRootJob();
 }
 
-
-
-
 void GameObject::UpdateSub()
 {
 	Update();
@@ -266,9 +263,6 @@ void GameObject::ReleaseSub()
 
 	Release();
 }
-
-
-
 
 ////ローカル行列の取得（このオブジェクトの行列）
 //XMMATRIX GameObject::GetLocalMatrix(void)

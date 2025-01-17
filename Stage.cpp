@@ -1,13 +1,5 @@
 #include "Stage.h"
 
-//const int HEIGHT = 15;
-//const int WIDTH = 25;
-//const int TILE_SIZE = 50;
-//
-//int map[HEIGHT][WIDTH];
-
-
-
 Stage::Stage(GameObject* parent)
 	: GameObject(parent, "Stage")
 {
