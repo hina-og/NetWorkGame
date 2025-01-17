@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 
+
 namespace STAGE
 {
 	const int HEIGHT = 18;
@@ -27,5 +28,9 @@ public:
 
 	//ŠJ•ú
 	void Release() override;
+
+	int GetStage(int _y,int _x) { return stage[_y][_x]; }
+
+	
 };
 

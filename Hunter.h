@@ -1,11 +1,20 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Camera.h"
+
+//struct PlayerData
+//{
+//	
+//};
 
 class Hunter
 	: public GameObject
 {
-	int x = 70;
-	int y = 70;
+	int speed_;
+	int x;
+	int y;
+	const int initPosX = 1280 / 2;
+	const int initPosY = 720 / 2;
 public:
 	Hunter(GameObject* parent);
 
