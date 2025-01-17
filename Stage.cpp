@@ -86,8 +86,22 @@ void Stage::Draw()
 			{
 				//DrawBox(x * STAGE::TILE_SIZE, y * STAGE::TILE_SIZE, x * STAGE::TILE_SIZE + STAGE::TILE_SIZE, y * STAGE::TILE_SIZE + STAGE::TILE_SIZE, GetColor(255,255,255), TRUE);
 
-				//if(cam->CamX >= 0 || cam->CamY >= 0)
-				DrawBox((x * STAGE::TILE_SIZE + cam->camX) * cam->camDist, (y * STAGE::TILE_SIZE + cam->camY) * cam->camDist, (x * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camX) * cam->camDist, (y * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camY) * cam->camDist, GetColor(255, 255, 255), TRUE);
+				if (cam->isZoom_)
+				{
+					DrawBox(((x * STAGE::TILE_SIZE + cam->camX) * cam->camDist) - 1280 / cam->camDist,
+						    ((y * STAGE::TILE_SIZE + cam->camY) * cam->camDist) - 720 / cam->camDist,
+							((x * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camX) * cam->camDist) - 1280 / cam->camDist,
+							((y * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camY) * cam->camDist) - 720 / cam->camDist,
+						     GetColor(255, 255, 255), TRUE);
+				}
+				else
+				{
+					DrawBox(x * STAGE::TILE_SIZE, 
+						    y * STAGE::TILE_SIZE,
+						    x * STAGE::TILE_SIZE + STAGE::TILE_SIZE,
+						    y * STAGE::TILE_SIZE + STAGE::TILE_SIZE,
+						    GetColor(255, 255, 255), TRUE);
+				}
 			}
 		}
 	}

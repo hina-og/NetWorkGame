@@ -8,6 +8,7 @@ public:
 	int camX;
 	int camY;
 	int camDist;
+	bool isZoom_;
 
 	Camera(GameObject* parent);
 	~Camera();

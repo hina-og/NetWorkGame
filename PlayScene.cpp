@@ -19,8 +19,8 @@ void PlayScene::Initialize()
 	Instantiate<Hunter>(this);
 	/*Instantiate<Item>(this);*/
 	for (int i = 0; i < 5; i++) {
-		Instantiate<EyeIcon>(this);
-		Instantiate<SpeedUpIcon>(this);
+		//Instantiate<EyeIcon>(this);
+		//Instantiate<SpeedUpIcon>(this);
 	}
 }
 

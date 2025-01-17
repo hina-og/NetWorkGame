@@ -2,11 +2,6 @@
 #include "Engine/GameObject.h"
 #include "Camera.h"
 
-//struct PlayerData
-//{
-//	
-//};
-
 class Hunter
 	: public GameObject
 {

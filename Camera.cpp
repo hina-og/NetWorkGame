@@ -15,6 +15,7 @@ void Camera::Initialize()
 	camX = 0;
 	camY = 0;
 	camDist = 1;
+	isZoom_ = false;
 }
 
 void Camera::Update()
@@ -22,10 +23,12 @@ void Camera::Update()
 	if (CheckHitKey(KEY_INPUT_J))
 	{
 		camDist = 1;
+		isZoom_ = false;
 	}
 	if (CheckHitKey(KEY_INPUT_K))
 	{
-		camDist = 5;
+		camDist = 2;
+		isZoom_ = true;
 	}
 }
 
