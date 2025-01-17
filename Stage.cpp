@@ -1,16 +1,10 @@
 #include "Stage.h"
-
-//const int HEIGHT = 15;
-//const int WIDTH = 25;
-//const int TILE_SIZE = 50;
-//
-//int map[HEIGHT][WIDTH];
-
-
+#include "Camera.h"
 
 Stage::Stage(GameObject* parent)
 	: GameObject(parent, "Stage")
 {
+	
 }
 
 Stage::~Stage()
@@ -18,7 +12,7 @@ Stage::~Stage()
 }
 
 void Stage::Initialize()
-{
+{	
 	int direction = 0;
 	for (int y = 0; y < STAGE::HEIGHT; y++)
 	{
@@ -82,17 +76,17 @@ void Stage::Update()
 
 void Stage::Draw()
 {
+	Camera* cam = (Camera*)FindObject("Camera");
 	for (int y = 0; y < STAGE::HEIGHT; y++)
 	{
 		for (int x = 0; x < STAGE::WIDTH; x++)
 		{
 			if (stage[y][x] == 1)
 			{
-				DrawBox(x * STAGE::TILE_SIZE, y * STAGE::TILE_SIZE, x * STAGE::TILE_SIZE + STAGE::TILE_SIZE, y * STAGE::TILE_SIZE + STAGE::TILE_SIZE, GetColor(255,255,255), TRUE);
-			}
-			else
-			{
-				
+				//DrawBox(x * STAGE::TILE_SIZE, y * STAGE::TILE_SIZE, x * STAGE::TILE_SIZE + STAGE::TILE_SIZE, y * STAGE::TILE_SIZE + STAGE::TILE_SIZE, GetColor(255,255,255), TRUE);
+
+				//if(cam->CamX >= 0 || cam->CamY >= 0)
+				DrawBox((x * STAGE::TILE_SIZE + cam->camX) * cam->camDist, (y * STAGE::TILE_SIZE + cam->camY) * cam->camDist, (x * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camX) * cam->camDist, (y * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camY) * cam->camDist, GetColor(255, 255, 255), TRUE);
 			}
 		}
 	}

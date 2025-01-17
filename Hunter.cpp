@@ -1,11 +1,15 @@
 #include "Hunter.h"
+#include "Camera.h"
 
 Hunter::Hunter(GameObject* parent)
 {
+	
 }
 
 void Hunter::Initialize()
 {
+	x = initPosX;
+	y = initPosY;
 }
 
 void Hunter::Update()
@@ -30,7 +34,8 @@ void Hunter::Update()
 
 void Hunter::Draw()
 {
-	DrawCircle(x, y, 20, GetColor(255, 0, 0), TRUE);
+	Camera* cam = (Camera*)FindObject("Camera");
+	DrawCircle(initPosX, initPosY, 20 * cam->camDist, GetColor(255, 0, 0), TRUE);
 }
 
 void Hunter::Release()
