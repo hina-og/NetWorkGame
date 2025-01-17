@@ -23,6 +23,8 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
+
+    XMINT2 GetPosition() { return position_; }
 private:
     int hEyeIcon_;
     int hSpeedUpIcon_;

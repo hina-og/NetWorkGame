@@ -20,7 +20,6 @@ void SpeedUpIcon::Initialize()
 	IsOnLoad_ = false;
 	IsAlive_ = false;
 	stage = GetParent()->FindGameObject<Stage>();
-	cam = GetParent()->FindGameObject<Camera>();
 
 	GetGraphSize(hIcon_, &graphSize_.x, &graphSize_.y);
 }

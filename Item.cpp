@@ -32,7 +32,7 @@ void Item::Update()
 
 void Item::Draw()
 {
-	DrawExtendGraph(position_.x,position_.y, position_.x + 32 * cam->camDist, position_.y + 32 * cam->camDist,hIcon_, TRUE);
+	DrawExtendGraph((position_.x + cam->camX), (position_.y + cam->camY), (position_.x + cam->camX) + 32 * cam->camDist, (position_.y + cam->camY) + 32 * cam->camDist, hIcon_, TRUE);
 #if 0 //ボックス
 	DrawBoxAA(0, 0, 40, 40, GetColor(255, 255, 0), FALSE);
 	DrawBoxAA(40, 40, 80, 80, GetColor(255, 255, 0), FALSE);
