@@ -2,17 +2,20 @@
 #include "Engine/GameObject.h"
 
 class Stage;
+class Camera;
 
 class Item :
     public GameObject
 {
 protected:
     int hIcon_;
+    XMINT2 graphSize_;
     XMINT2 position_;
     XMINT2 num_;
     bool IsOnLoad_;
     bool IsAlive_;
     Stage* stage;
+    Camera* cam;
 public:
     Item(GameObject* parent);
     ~Item();

@@ -3,6 +3,8 @@
 #include "Stage.h"
 #include "Hunter.h"
 #include"Item.h"
+#include"EyeIcon.h"
+#include"SpeedUpIcon.h"
 
 
 PlayScene::PlayScene(GameObject* parent)
@@ -15,7 +17,9 @@ void PlayScene::Initialize()
 	Instantiate<Camera>(this);
 	Instantiate<Stage>(this);
 	Instantiate<Hunter>(this);
-	Instantiate<Item>(this);
+	/*Instantiate<Item>(this);*/
+	Instantiate<EyeIcon>(this);
+	Instantiate<SpeedUpIcon>(this);
 }
 
 void PlayScene::Update()

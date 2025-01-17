@@ -1,5 +1,6 @@
 #include "EyeIcon.h"
 #include"Stage.h"
+#include"Camera.h"
 
 EyeIcon::EyeIcon(GameObject* parent) : Item(parent)
 {
@@ -19,19 +20,9 @@ void EyeIcon::Initialize()
 	IsOnLoad_ = false;
 	IsAlive_ = false;
 	stage = GetParent()->FindGameObject<Stage>();
-}
+	cam = GetParent()->FindGameObject<Camera>();
 
-void EyeIcon::Update()
-{
-	if (!IsAlive_) {
-		while (!IsOnLoad_) {
-			num_ = { GetRand(STAGE::WIDTH),GetRand(STAGE::HEIGHT) };
-			if (stage->GetStage(num_.y, num_.x) <= 0) {
-				position_ = { num_.x * STAGE::TILE_SIZE,num_.y * STAGE::TILE_SIZE };
-				IsOnLoad_ = true;
-			}
-		}
-	}
+	GetGraphSize(hIcon_, &graphSize_.x, &graphSize_.y);
 }
 
 void EyeIcon::Release()
