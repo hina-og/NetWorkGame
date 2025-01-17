@@ -1,5 +1,7 @@
 #include "Hunter.h"
 #include "Camera.h"
+#include "Stage.h"
+
 
 Hunter::Hunter(GameObject* parent)
 {
@@ -39,7 +41,7 @@ void Hunter::Update()
 void Hunter::Draw()
 {
 	Camera* cam = (Camera*)FindObject("Camera");
-	DrawCircle(initPosX, initPosY, 20 * cam->camDist, GetColor(255, 0, 0), TRUE);
+	DrawCircle(initPosX, initPosY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
 }
 
 void Hunter::Release()
