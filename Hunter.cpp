@@ -1,18 +1,22 @@
 #include "Hunter.h"
 #include "Camera.h"
 #include "Stage.h"
+#include"Player.h"
 
 
 Hunter::Hunter(GameObject* parent)
 {
-	
 }
 
 void Hunter::Initialize()
 {
+	hArrow_ = LoadGraph("Assets//arrow.png");
+	assert(hArrow_ >= 0);
 	speed_ = 2;
 	x = initPosX;
 	y = initPosY;
+
+	state_ = CANLOOK;
 }
 
 void Hunter::Update()
@@ -35,18 +39,67 @@ void Hunter::Update()
 	{
 		cam->camY -= speed_;
 	}
+
+	switch (state_)
+	{
+	case NONE:
+	{
+		break;
+	}
+	case SPEEDUP:
+	{
+		
+		break;
+	}
+	case CANLOOK:
+	{
+		Player* pPl = GetParent()->FindGameObject<Player>();
+		/*VECTOR Graphvec;
+		Graphvec = {(float)initPosX -  (float)initPosX,0.0f,-(float)initPosY - (float)initPosY };*/
+		VECTOR Enemyvec;
+		Enemyvec = { pPl->GetPosition().x - ((float)x - cam->camX) ,0.0f,pPl->GetPosition().y - (float)y - cam->camY };
+
+		angle_ = atan2(Enemyvec.z, Enemyvec.x);
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void Hunter::Draw()
 {
+	
 	Camera* cam = (Camera*)FindObject("Camera");
+	//DrawBox(initPosX-STAGE::TILE_SIZE, initPosY-STAGE::TILE_SIZE, initPosX+STAGE::TILE_SIZE, initPosY+STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
 	if (cam->isZoom_)
 	{
 		DrawCircle(initPosX, initPosY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
+		DrawBox(initPosX - STAGE::TILE_SIZE, initPosY - STAGE::TILE_SIZE, initPosX + STAGE::TILE_SIZE, initPosY + STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
 	}
 	else
 	{
 		DrawCircle(x - cam->camX, y - cam->camY, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+		DrawBox(x - cam->camX-STAGE::TILE_SIZE/2, y - cam->camY-STAGE::TILE_SIZE/2, x - cam->camX + STAGE::TILE_SIZE/2, y - cam->camY + STAGE::TILE_SIZE/2, GetColor(255, 0, 0), FALSE);
+	}
+
+	switch (state_)
+	{
+	case NONE:
+	{
+		break;
+	}
+	case SPEEDUP:
+	{
+		break;
+	}
+	case CANLOOK:
+	{
+		DrawRotaGraph(initPosX - cam->camX, initPosY - cam->camY, 1.0, angle_, hArrow_, TRUE, FALSE);
+		break;
+	}
+	default:
+		break;
 	}
 }
 

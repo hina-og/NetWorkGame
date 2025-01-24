@@ -10,6 +10,10 @@ class Hunter
 	int y;
 	const int initPosX = 1280 / 2;
 	const int initPosY = 720 / 2;
+	int state_;
+
+	float angle_;
+	int hArrow_;
 public:
 	Hunter(GameObject* parent);
 
