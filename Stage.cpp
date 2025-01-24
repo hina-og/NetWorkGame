@@ -88,11 +88,26 @@ void Stage::Draw()
 
 				if (cam->isZoom_)
 				{
-					DrawBox(((x * STAGE::TILE_SIZE + cam->camX) * cam->camDist) - 1280 / cam->camDist,
-						    ((y * STAGE::TILE_SIZE + cam->camY) * cam->camDist) - 720 / cam->camDist,
-							((x * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camX) * cam->camDist) - 1280 / cam->camDist,
-							((y * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camY) * cam->camDist) - 720 / cam->camDist,
-						     GetColor(255, 255, 255), TRUE);
+					/*DrawBox(((x * STAGE::TILE_SIZE + cam->camX) * cam->camDist) - 1280 / 2 - 1280 / 2 / cam->camDist,
+						    ((y * STAGE::TILE_SIZE + cam->camY) * cam->camDist) - 720 / 2 - 720 / 2 / cam->camDist,
+							((x * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camX) * cam->camDist) - 1280 / 2 - 1280 / 2 / cam->camDist,
+							((y * STAGE::TILE_SIZE + STAGE::TILE_SIZE + cam->camY) * cam->camDist) - 720 / 2 - 720 / 2 / cam->camDist,
+						     GetColor(255, 255, 255), TRUE);*/
+					//DrawBox((x * STAGE::TILE_SIZE * cam->camDist) - (1280 - 1280 / cam->camDist) + cam->camX * cam->camDist /* - 1280 / 2 - 1280 / 2 / cam->camDist*/,
+					//		(y * STAGE::TILE_SIZE * cam->camDist) - (720 - 720 / cam->camDist) + cam->camY * cam->camDist /* - 720 / 2 - 720 / 2 / cam->camDist*/,
+					//		(x * STAGE::TILE_SIZE * cam->camDist + STAGE::TILE_SIZE * cam->camDist) - (1280 - 1280 / cam->camDist) + cam->camX * cam->camDist /* - 1280 / 2 - 1280 / 2 / cam->camDist*/,
+					//		(y * STAGE::TILE_SIZE * cam->camDist + STAGE::TILE_SIZE * cam->camDist) - (720 - 720 / cam->camDist) + cam->camY * cam->camDist /* - 720 / 2 - 720 / 2 / cam->camDist*/,
+					//		GetColor(255, 255, 255), TRUE);
+					
+					DrawBox((x * STAGE::TILE_SIZE * cam->camDist) - 1920 + cam->camX * cam->camDist,
+							(y * STAGE::TILE_SIZE * cam->camDist) - 1080 + cam->camY * cam->camDist,
+						(x * STAGE::TILE_SIZE * cam->camDist + STAGE::TILE_SIZE * cam->camDist) - 1920 + cam->camX * cam->camDist,
+							(y * STAGE::TILE_SIZE * cam->camDist + STAGE::TILE_SIZE * cam->camDist) - 1080 + cam->camY * cam->camDist,
+							GetColor(255, 255, 255), TRUE);
+					//1 :1280,720
+					//2 : 640,360
+					//4 ; 320,180
+					//20:  64, 36
 				}
 				else
 				{
