@@ -24,9 +24,6 @@ void Item::Initialize()
 	cam = GetParent()->FindGameObject<Camera>();
 
 	GetGraphSize(hIcon_, &graphSize_.x, &graphSize_.y);
-
-	stage = GetParent()->FindGameObject<Stage>();
-	cam = GetParent()->FindGameObject<Camera>();
 }
 
 void Item::Update()

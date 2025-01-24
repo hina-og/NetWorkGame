@@ -9,6 +9,7 @@ class Item :
 {
 protected:
     int hIcon_;
+    int state_;
     std::string fileName_;
     XMINT2 graphSize_;
     XMINT2 position_;
@@ -24,6 +25,8 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void Release() override;
+
+    int GetState() { return state_; }
 private:
 };
 
