@@ -39,14 +39,18 @@ void Hunter::Update()
 
 void Hunter::Draw()
 {
+	
 	Camera* cam = (Camera*)FindObject("Camera");
+	//DrawBox(initPosX-STAGE::TILE_SIZE, initPosY-STAGE::TILE_SIZE, initPosX+STAGE::TILE_SIZE, initPosY+STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
 	if (cam->isZoom_)
 	{
 		DrawCircle(initPosX, initPosY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
+		DrawBox(initPosX - STAGE::TILE_SIZE, initPosY - STAGE::TILE_SIZE, initPosX + STAGE::TILE_SIZE, initPosY + STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
 	}
 	else
 	{
 		DrawCircle(x - cam->camX, y - cam->camY, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+		DrawBox(x - cam->camX-STAGE::TILE_SIZE/2, y - cam->camY-STAGE::TILE_SIZE/2, x - cam->camX + STAGE::TILE_SIZE/2, y - cam->camY + STAGE::TILE_SIZE/2, GetColor(255, 0, 0), FALSE);
 	}
 }
 
