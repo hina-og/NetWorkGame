@@ -12,8 +12,10 @@ namespace STAGE
 class Stage
 	: public GameObject
 {
-	int stage[STAGE::HEIGHT][STAGE::WIDTH];
+	
 public:
+	int stage[STAGE::HEIGHT][STAGE::WIDTH];
+
 	Stage(GameObject* parent);
 	~Stage();
 
@@ -30,6 +32,8 @@ public:
 	void Release() override;
 
 	int GetStage(int _y,int _x) { return stage[_y][_x]; }
+
+	int GetTile(int y, int x);
 
 	
 };

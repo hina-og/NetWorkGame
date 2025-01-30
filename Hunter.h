@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Camera.h"
+#include "Stage.h"
 
 class Hunter
 	: public GameObject
@@ -15,6 +16,7 @@ class Hunter
 	float angle_;
 	int hArrow_;
 public:
+
 	Hunter(GameObject* parent);
 
 	void Initialize() override;
@@ -24,5 +26,7 @@ public:
 	void Draw() override;
 
 	void Release() override;
+
+	bool CollisionStage(Stage* stage);
 };
 
