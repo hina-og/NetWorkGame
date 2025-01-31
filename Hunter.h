@@ -14,6 +14,7 @@ class Hunter
 	int state_;
 
 	float angle_;
+	float rate_;
 	int hArrow_;
 public:
 
