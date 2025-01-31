@@ -14,6 +14,8 @@ void Camera::Initialize()
 {
 	camX = 0;
 	camY = 0;
+	overCamX = 0;
+	overCamY = 0;
 	camDist = 1;//ÉYÅ[ÉÄî{ó¶
 	isZoom_ = false;
 }
