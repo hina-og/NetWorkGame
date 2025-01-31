@@ -20,12 +20,14 @@ void Player::Update()
 			IsOnLoad_ = true;
 		}
 	}
+	transform_.position_ = { (float)x,(float)y ,0 };
 }
 
 void Player::Draw()
 {
+	
 	Camera* cam = (Camera*)FindObject("Camera");
-	DrawCircle(x , y , STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+	DrawCircle(transform_.position_.x , transform_.position_.y , STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
 }
 
 void Player::Release()

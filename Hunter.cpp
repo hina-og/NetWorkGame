@@ -1,7 +1,12 @@
-#include "Hunter.h"
+﻿#include "Hunter.h"
 #include "Camera.h"
 #include "Stage.h"
 #include "Player.h"
+#include <cmath>  // acos, PI などを使うために必要
+#include<algorithm>
+#include<numbers>
+
+#define PI    3.1415926535897932384626433832795f
 
 Hunter::Hunter(GameObject* parent)
 	: GameObject(parent, "Hunter"), x(0), y(0)
@@ -43,11 +48,31 @@ void Hunter::Update()
         y += speed_;
     }
 
-    // �X�e�[�W�Ƃ̓����蔻��̃`�F�b�N
+    // プレイヤー位置と自分の位置を取得
+    XMFLOAT2 p1, p2;
+    transform_.position_ = { (float)(x - cam->camX), (float)(y - cam->camY) , 0.0f };
+    Player* pPlayer = GetParent()->FindGameObject<Player>();
+    p1 = { pPlayer->GetPosition().x, pPlayer->GetPosition().y };
+    p2 = { 1.0, 0.0 };
+
+    // ベクトル計算
+    VECTOR v1 = { p1.x - transform_.position_.x, p1.y - transform_.position_.y, 0.0f };
+    VECTOR v2 = { p2.x - transform_.position_.x, p2.y - transform_.position_.y , 0.0f };
+
+    // ベクトル正規化
+    v1 = VNorm(v1);
+    v2 = VNorm(v2);
+
+    // 角度計算 (ラジアンを度に変換)
+    float angleRad = atan2(v1.y, v1.x);
+    angle_ = angleRad;
+    rate_ = 1.0f;
+
+    // ステージとの当たり判定のチェック
     Stage* stage = (Stage*)FindObject("Stage");
     if (stage != nullptr && CollisionStage(stage))
     {
-        // �ǂɏՓ˂����ꍇ�̏���
+        // 壁に衝突した場合の処理
         x = prevX;
         y = prevY;
     }
@@ -68,6 +93,7 @@ void Hunter::Draw()
         DrawCircle(x - cam->camX, y - cam->camY, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
         DrawBox(x - cam->camX - STAGE::TILE_SIZE / 2, y - cam->camY - STAGE::TILE_SIZE / 2, x - cam->camX + STAGE::TILE_SIZE / 2, y - cam->camY + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
     }
+    DrawRotaGraph(transform_.position_.x, transform_.position_.y,rate_,angle_, hArrow_, TRUE);
 }
 
 void Hunter::Release()
