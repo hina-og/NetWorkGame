@@ -7,8 +7,6 @@ class Camera
 public:
 	int camX;
 	int camY;
-	int overCamX;
-	int overCamY;
 	int camDist;
 	bool isZoom_;
 

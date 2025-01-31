@@ -2,11 +2,6 @@
 #include "Camera.h"
 #include "Stage.h"
 #include "Player.h"
-#include <cmath>  // acos, PI などを使うために必要
-#include<algorithm>
-#include<numbers>
-
-#define PI    3.1415926535897932384626433832795f
 
 Hunter::Hunter(GameObject* parent)
 	: GameObject(parent, "Hunter"), x(0), y(0)
@@ -30,100 +25,52 @@ void Hunter::Update()
 
     int prevX = x;
     int prevY = y;
-    int prevCamX = cam->camX;
-    int prevCamY = cam->camY;
 
     if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))
     {
         x -= speed_;
-        /*cam->camX += speed_;
-        if (x <= 40 * 4 + 20 && cam->overCamX < 40 * 10)
-        {
-            cam->overCamX += speed_;
-        }*/
-        if (cam->camX < 480)
-        {
-            cam->camX += speed_;
-        }
-        else
-        {
-            //cam->overCamX -= speed_;
-            if (cam->overCamX >= 0)
-            {
-                cam->overCamX -= speed_;
-            }
-            else
-            {
-                cam->overCamX += speed_;
-            }
-        }
     }
     if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
     {
         x += speed_;
-        //cam->camX -= speed_;
-        if (cam->camX > -480)
-        {
-            cam->camX -= speed_;
-        }
-        else
-        {
-            if (cam->overCamX <= 0)
-            {
-                cam->overCamX -= speed_;
-            }
-            else
-            {
-                cam->overCamX += speed_;
-            }
-        }
     }
     if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))
     {
         y -= speed_;
-        cam->camY += speed_;
-        /*if (y <= 40 * 3 + 20 && cam->overCamX < 40 * 8 + 20)
-        {
-            cam->overCamY += speed_;
-        }*/
     }
     if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))
     {
         y += speed_;
-        cam->camY -= speed_;
     }
 
-    // プレイヤー位置と自分の位置を取得
+    // �v���C���[�ʒu�Ǝ����̈ʒu��擾
     XMFLOAT2 p1, p2;
     transform_.position_ = { (float)(x - cam->camX), (float)(y - cam->camY) , 0.0f };
     Player* pPlayer = GetParent()->FindGameObject<Player>();
     p1 = { pPlayer->GetPosition().x, pPlayer->GetPosition().y };
     p2 = { 1.0, 0.0 };
 
-    // ベクトル計算
+    // �x�N�g���v�Z
     VECTOR v1 = { p1.x - transform_.position_.x, p1.y - transform_.position_.y, 0.0f };
     VECTOR v2 = { p2.x - transform_.position_.x, p2.y - transform_.position_.y , 0.0f };
 
-    // ベクトル正規化
+    // �x�N�g�����K��
     v1 = VNorm(v1);
     v2 = VNorm(v2);
 
-    // 角度計算 (ラジアンを度に変換)
+    // �p�x�v�Z (���W�A����x�ɕϊ�)
     float angleRad = atan2(v1.y, v1.x);
     angle_ = angleRad;
     rate_ = 1.0f;
 
-    // ステージとの当たり判定のチェック
+    // �X�e�[�W�Ƃ̓����蔻��̃`�F�b�N
     Stage* stage = (Stage*)FindObject("Stage");
     if (stage != nullptr && CollisionStage(stage))
     {
-        // 壁に衝突した場合の処理
+        // �ǂɏՓ˂����ꍇ�̏���
         x = prevX;
         y = prevY;
-        cam->camX = prevCamX;
-        cam->camY = prevCamY;
     }
-    
 }
 
 void Hunter::Draw()
@@ -133,13 +80,13 @@ void Hunter::Draw()
 
     if (cam->isZoom_)
     {
-        DrawCircle(initPosX - cam->overCamX, initPosY - cam->overCamY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
+        DrawCircle(initPosX, initPosY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
         DrawBox(initPosX - STAGE::TILE_SIZE, initPosY - STAGE::TILE_SIZE, initPosX + STAGE::TILE_SIZE, initPosY + STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
     }
     else
     {
-        DrawCircle(x, y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
-        DrawBox(x - STAGE::TILE_SIZE / 2, y - STAGE::TILE_SIZE / 2, x + STAGE::TILE_SIZE / 2, y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
+        DrawCircle(x - cam->camX, y - cam->camY, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+        DrawBox(x - cam->camX - STAGE::TILE_SIZE / 2, y - cam->camY - STAGE::TILE_SIZE / 2, x - cam->camX + STAGE::TILE_SIZE / 2, y - cam->camY + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
     }
     std::string str = std::to_string(cam->overCamX);
     DrawString(x, y, str.c_str(), GetColor(0, 255, 255));
@@ -155,10 +102,10 @@ bool Hunter::CollisionStage(Stage* stage)
     int tileX = x / STAGE::TILE_SIZE;
     int tileY = y / STAGE::TILE_SIZE;
 
-    //if (tileX < 0 || tileX >= STAGE::WIDTH || tileY < 0 || tileY >= STAGE::HEIGHT)
-    //{
-    //    return false;
-    //}
+    if (tileX < 0 || tileX >= STAGE::WIDTH || tileY < 0 || tileY >= STAGE::HEIGHT)
+    {
+        return false;
+    }
 
     return stage->GetTile(tileY, tileX) == 1;
 }
