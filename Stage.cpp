@@ -122,7 +122,7 @@ void Stage::Draw()
     }
     //DrawBox(0,0,100,100, GetColor(255,0,0), TRUE);
 
-    /*for (int y = 0; y < STAGE::HEIGHT; y++)
+    for (int y = 0; y < STAGE::HEIGHT; y++)
     {
         for (int x = 0; x < STAGE::WIDTH; x++)
         {

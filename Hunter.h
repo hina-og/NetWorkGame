@@ -3,6 +3,12 @@
 #include "Camera.h"
 #include "Stage.h"
 
+struct Point
+{
+	int x_;
+	int y_;
+};
+
 class Hunter
 	: public GameObject
 {
@@ -10,7 +16,7 @@ class Hunter
 	int x;
 	int y;
 	const int initPosX = 1280 /2;
-	const int initPosY = 720 / 2;
+	const int initPosY = 720 / 2 ;
 	int state_;
 
 	float angle_;
