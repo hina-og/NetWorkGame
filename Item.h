@@ -27,6 +27,8 @@ public:
     virtual void Release() override;
 
     int GetState() { return state_; }
+
+    /*bool HitSquare(XMINT2 _position); */
 private:
 };
 
