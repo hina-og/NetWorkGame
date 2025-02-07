@@ -3,14 +3,23 @@
 #include "Camera.h"
 #include "Stage.h"
 
+struct Point
+{
+	int x_;
+	int y_;
+};
+
 class Hunter
 	: public GameObject
 {
 	int speed_;
 	int x;
 	int y;
+
+	Point position;
+
 	const int initPosX = 1280 / 2;
-	const int initPosY = 720 / 2;
+	const int initPosY = 720 / 2 ;
 	int state_;
 
 	float angle_;
@@ -32,5 +41,7 @@ public:
 	void Release() override;
 
 	bool CollisionStage(Stage* stage);
+	bool CollisionStageX(Stage* stage, int _x1, int _x2);
+	bool CollisionStageY(Stage* stage, int _y1, int _y2);
 };
 
