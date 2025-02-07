@@ -13,22 +13,6 @@ Stage::~Stage()
 void Stage::Initialize()
 {
 
-    //for (int y = 0; y < STAGE::HEIGHT; y++)
-    //{
-    //    for (int x = 0; x < STAGE::WIDTH; x++)
-    //    {
-    //        if (x == 0 || x == STAGE::WIDTH - 1 || y == 0 || y == STAGE::HEIGHT - 1)
-    //        {
-    //            stage[y][x] = 1;
-    //        }
-    //        else
-    //        {
-    //            stage[y][x] = 0;
-    //        }
-    //    }
-    //}
-
-
     int direction = 0;
     for (int y = 0; y < STAGE::HEIGHT; y++)
     {
@@ -93,7 +77,7 @@ void Stage::Draw()
     Camera* cam = (Camera*)FindObject("Camera");
     if (cam == nullptr) return;
 
-    /*for (int y = 0; y < STAGE::HEIGHT; y++)
+    for (int y = 0; y < STAGE::HEIGHT; y++)
     {
         for (int x = 0; x < STAGE::WIDTH; x++)
         {
@@ -117,7 +101,7 @@ void Stage::Draw()
                 }
             }
         }
-    }*/
+    }
 }
 
 void Stage::Release()

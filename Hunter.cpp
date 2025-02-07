@@ -47,7 +47,7 @@ void Hunter::Update()
         }
         else
         {
-            //cam->overCamX -= speed_;
+            cam->overCamX -= speed_;
             if (cam->overCamX >= 0)
             {
                 cam->overCamX -= speed_;
@@ -61,7 +61,7 @@ void Hunter::Update()
     if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
     {
         x += speed_;
-        //cam->camX -= speed_;
+        cam->camX -= speed_;
         if (cam->camX > -480)
         {
             cam->camX -= speed_;
@@ -115,15 +115,24 @@ void Hunter::Update()
 
     // ステージとの当たり判定のチェック
     Stage* stage = (Stage*)FindObject("Stage");
-    if (stage != nullptr && CollisionStage(stage))
+    //if (stage != nullptr && CollisionStage(stage))
+    //{
+    //    // 壁に衝突した場合の処理
+    //    //x = prevX;
+    //    //y = prevY;
+    //    //cam->camX = prevCamX;
+    //    //cam->camY = prevCamY;
+    //}
+    if (CollisionStageX(stage, x, x + STAGE::TILE_SIZE / 2))
     {
-        // 壁に衝突した場合の処理
         x = prevX;
-        y = prevY;
         cam->camX = prevCamX;
+    }
+    if (CollisionStageY(stage, y, y + STAGE::TILE_SIZE / 2))
+    {
+        y = prevY;
         cam->camY = prevCamY;
     }
-    
 }
 
 void Hunter::Draw()
@@ -133,13 +142,13 @@ void Hunter::Draw()
 
     if (cam->isZoom_)
     {
-        DrawCircle(initPosX - cam->overCamX, initPosY - cam->overCamY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
+        DrawCircle(initPosX - cam->overCamX * cam->camDist, initPosY - cam->overCamY * cam->camDist, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
         DrawBox(initPosX - STAGE::TILE_SIZE, initPosY - STAGE::TILE_SIZE, initPosX + STAGE::TILE_SIZE, initPosY + STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
     }
     else
     {
         DrawCircle(x, y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
-        DrawBox(x - STAGE::TILE_SIZE / 2, y - STAGE::TILE_SIZE / 2, x + STAGE::TILE_SIZE / 2, y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
+        DrawBox(x - STAGE::TILE_SIZE / 2 + 1 , y - STAGE::TILE_SIZE / 2 + 1 , x + STAGE::TILE_SIZE / 2, y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
     }
     std::string str = std::to_string(cam->overCamX);
     DrawString(x, y, str.c_str(), GetColor(0, 255, 255));
@@ -161,4 +170,40 @@ bool Hunter::CollisionStage(Stage* stage)
     //}
 
     return stage->GetTile(tileY, tileX) == 1;
+}
+
+bool Hunter::CollisionStageX(Stage* stage, int _x1, int _x2)
+{
+    int tileX = (_x1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
+    int tileY = y / STAGE::TILE_SIZE;
+
+    if (stage->GetTile(tileY, tileX))
+    {
+        return true;
+    }
+
+    tileX = _x2 / STAGE::TILE_SIZE;
+    if (stage->GetTile(tileY, tileX))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Hunter::CollisionStageY(Stage* stage, int _y1, int _y2)
+{
+    int tileX = x / STAGE::TILE_SIZE;
+    int tileY = (_y1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
+
+    if (stage->GetTile(tileY, tileX))
+    {
+        return true;
+    }
+    tileX = x / STAGE::TILE_SIZE;
+    tileY = _y2 / STAGE::TILE_SIZE;
+    if (stage->GetTile(tileY, tileX))
+    {
+        return true;
+    }
+    return false;
 }
