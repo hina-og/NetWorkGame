@@ -189,7 +189,7 @@ bool Hunter::CollisionStage(Stage* stage)
     //    return false;
     //}
 
-    return stage->GetTile(tileY, tileX) == 1;
+    return stage->IsWall(tileY, tileX) == 1;
 }
 
 bool Hunter::CollisionStageX(Stage* stage, int _x1, int _x2)
@@ -197,13 +197,13 @@ bool Hunter::CollisionStageX(Stage* stage, int _x1, int _x2)
     int tileX = (_x1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
     int tileY = y / STAGE::TILE_SIZE;
 
-    if (stage->GetTile(tileY, tileX))
+    if (stage->IsWall(tileY, tileX))
     {
         return true;
     }
 
     tileX = _x2 / STAGE::TILE_SIZE;
-    if (stage->GetTile(tileY, tileX))
+    if (stage->IsWall(tileY, tileX))
     {
         return true;
     }
@@ -215,13 +215,13 @@ bool Hunter::CollisionStageY(Stage* stage, int _y1, int _y2)
     int tileX = x / STAGE::TILE_SIZE;
     int tileY = (_y1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
 
-    if (stage->GetTile(tileY, tileX))
+    if (stage->IsWall(tileY, tileX))
     {
         return true;
     }
     tileX = x / STAGE::TILE_SIZE;
     tileY = _y2 / STAGE::TILE_SIZE;
-    if (stage->GetTile(tileY, tileX))
+    if (stage->IsWall(tileY, tileX))
     {
         return true;
     }

@@ -34,4 +34,6 @@ public:
 	void Release() override;
 
 	bool CollisionStage(Stage* stage);
+	bool CollisionStageX(Stage* stage, int _x1, int _x2);
+	bool CollisionStageY(Stage* stage, int _x1, int _x2);
 };
