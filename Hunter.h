@@ -16,6 +16,9 @@ class Hunter
 	float angle_;
 	float rate_;
 	int hArrow_;
+
+	float DirectionCalculation(XMFLOAT3 _position);
+
 public:
 
 	Hunter(GameObject* parent);
