@@ -9,7 +9,7 @@ class Hunter
 	int speed_;
 	int x;
 	int y;
-	const int initPosX = 1280 / 2;
+	const int initPosX = 1280 /2;
 	const int initPosY = 720 / 2;
 	int state_;
 
@@ -17,7 +17,6 @@ class Hunter
 	float rate_;
 	int hArrow_;
 public:
-
 	Hunter(GameObject* parent);
 
 	void Initialize() override;
@@ -30,4 +29,3 @@ public:
 
 	bool CollisionStage(Stage* stage);
 };
-

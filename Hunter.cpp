@@ -1,6 +1,8 @@
 ﻿#include "Hunter.h"
 #include "Camera.h"
 #include "Stage.h"
+#include"Player.h"
+
 #include "Player.h"
 #include <cmath>  // acos, PI などを使うために必要
 #include<algorithm>
@@ -9,7 +11,6 @@
 #define PI    3.1415926535897932384626433832795f
 
 Hunter::Hunter(GameObject* parent)
-	: GameObject(parent, "Hunter"), x(0), y(0)
 {
 }
 
@@ -118,19 +119,50 @@ void Hunter::Update()
     if (stage != nullptr && CollisionStage(stage))
     {
         // 壁に衝突した場合の処理
-        x = prevX;
-        y = prevY;
-        cam->camX = prevCamX;
-        cam->camY = prevCamY;
+        if (x < 0 || x >= STAGE::WIDTH * STAGE::TILE_SIZE || y < 0 || y >= STAGE::HEIGHT * STAGE::TILE_SIZE)
+        {
+            x = prevX;
+            y = prevY;
+            cam->camX = prevCamX;
+            cam->camY = prevCamY;
+        }
+        else
+        {
+            x = prevX;
+            y = prevY;
+            cam->camX = prevCamX;
+            cam->camY = prevCamY;
+        }
+        //x = prevX;
+        //y = prevY;
+        //cam->camX = prevCamX;
+        //cam->camY = prevCamY;
     }
-    
+
 }
 
 void Hunter::Draw()
 {
     Camera* cam = (Camera*)FindObject("Camera");
-    if (cam == nullptr) return;
 
+    switch (state_)
+    {
+    case NONE:
+    {
+        break;
+    }
+    case SPEEDUP:
+    {
+        break;
+    }
+    case CANLOOK:
+    {
+        DrawRotaGraph(initPosX - cam->camX, initPosY - cam->camY, 1.0, angle_, hArrow_, TRUE, FALSE);
+        break;
+    }
+    default:
+        break;
+    }
     if (cam->isZoom_)
     {
         DrawCircle(initPosX - cam->overCamX, initPosY - cam->overCamY, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
@@ -143,11 +175,13 @@ void Hunter::Draw()
     }
     std::string str = std::to_string(cam->overCamX);
     DrawString(x, y, str.c_str(), GetColor(0, 255, 255));
-    DrawRotaGraph(transform_.position_.x, transform_.position_.y,rate_,angle_, hArrow_, TRUE);
+    //DrawRotaGraph(transform_.position_.x, transform_.position_.y,rate_,angle_, hArrow_, TRUE);
+
 }
 
 void Hunter::Release()
 {
+
 }
 
 bool Hunter::CollisionStage(Stage* stage)
@@ -160,5 +194,6 @@ bool Hunter::CollisionStage(Stage* stage)
     //    return false;
     //}
 
-    return stage->GetTile(tileY, tileX) == 1;
+    return stage->IsWall(tileY, tileX) == 1;
+
 }

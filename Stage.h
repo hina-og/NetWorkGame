@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/GameObject.h"
 
 
@@ -12,29 +12,24 @@ namespace STAGE
 class Stage
 	: public GameObject
 {
-	
-public:
 	int stage[STAGE::HEIGHT][STAGE::WIDTH];
-
+public:
 	Stage(GameObject* parent);
 	~Stage();
 
-	//‰Šú‰»
+	//Ââ€°Å Ãºâ€°Â»
 	void Initialize() override;
 
-	//XV
+	//ÂXÂV
 	void Update() override;
 
-	//•`‰æ
+	//â€¢`â€°Ã¦
 	void Draw() override;
 
-	//ŠJ•ú
+	//Å Jâ€¢Ãº
 	void Release() override;
 
-	int GetStage(int _y,int _x) { return stage[_y][_x]; }
+	int GetStage(int _y, int _x) { return stage[_y][_x]; }
 
-	int GetTile(int y, int x);
-
-	
+	bool IsWall(int y, int x);
 };
-
