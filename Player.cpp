@@ -14,6 +14,10 @@ Player::Player(GameObject* parent)
 	job_ = RUNNER;
 }
 
+Player::~Player()
+{
+}
+
 void Player::Initialize()
 {
 	switch (job_) {
