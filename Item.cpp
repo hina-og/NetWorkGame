@@ -50,3 +50,14 @@ void Item::Draw()
 void Item::Release()
 {
 }
+
+//bool Item::HitSquare(XMINT2 b1,XMINT2 b2,XMINT2 b1dis,XMINT2 b2dis)
+//{
+//	XMINT2 Box1Center;
+//	XMINT2 Box2Center;
+//	Box1Center = { b1.x + b1dis.x / 2,b1.y + b1dis.y / 2 };
+//	Box2Center = { b2.x + b2dis.x / 2,b2.y + b2dis.y / 2 };
+//
+//
+//	return false;
+//}
