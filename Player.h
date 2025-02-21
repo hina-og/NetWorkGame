@@ -16,8 +16,12 @@ class Player
 
 	XMINT2 num_;
 	bool IsOnLoad_;
+
+
+	
 public:
 	Player(GameObject* parent);
+	~Player();
 
 	void Initialize() override;
 

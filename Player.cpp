@@ -1,8 +1,21 @@
 #include "Player.h"
 #include"Stage.h"
 
+//#include<ws2tcpip.h> 
+//#include <WS2tcpip.h>
+//#pragma comment( lib, "ws2_32.lib" )
+
+
+
 Player::Player(GameObject* parent)
 {
+	
+	
+}
+
+Player::~Player()
+{
+	
 }
 
 void Player::Initialize()
@@ -21,6 +34,11 @@ void Player::Update()
 		}
 	}
 	transform_.position_ = { (float)x,(float)y ,0 };
+
+
+
+
+	
 }
 
 void Player::Draw()

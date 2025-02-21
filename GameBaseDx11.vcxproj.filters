@@ -61,6 +61,8 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="EyeIcon.cpp" />
     <ClCompile Include="SpeedUpIcon.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\GameObject.h">
@@ -102,5 +104,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="EyeIcon.h" />
     <ClInclude Include="SpeedUpIcon.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Socket.h" />
   </ItemGroup>
 </Project>

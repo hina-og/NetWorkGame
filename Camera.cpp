@@ -22,7 +22,9 @@ void Camera::Initialize()
 
 void Camera::Update()
 {
-	if (CheckHitKey(KEY_INPUT_J))
+	//　　いったんズームなし
+
+	/*if (CheckHitKey(KEY_INPUT_J))
 	{
 		camDist = 1;
 		isZoom_ = false;
@@ -31,7 +33,7 @@ void Camera::Update()
 	{
 		camDist = 4;
 		isZoom_ = true;
-	}
+	}*/
 }
 
 void Camera::Draw()
