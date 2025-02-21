@@ -138,7 +138,7 @@ void Hunter::Draw()
     }
     case CANLOOK:
     {
-        DrawRotaGraph(initPosX - cam->camX, initPosY - cam->camY, 1.0, angle_, hArrow_, TRUE, FALSE);
+        DrawRotaGraph(x-STAGE::TILE_SIZE, y-STAGE::TILE_SIZE, 1.0, angle_, hArrow_, TRUE, FALSE);
         break;
     }
     default:

@@ -2,10 +2,12 @@
 #include"Stage.h"
 #include"Runner.h"
 #include"Hunter.h"
+#include"Conect.h"
 
 Player::Player(GameObject* parent)
 {
 	job_ = RUNNER;
+	startConect = false;
 }
 
 void Player::Initialize()
@@ -28,6 +30,13 @@ void Player::Initialize()
 
 void Player::Update()
 {
+	if (CheckHitKey(KEY_INPUT_RETURN)) {
+		startConect = true;
+	}
+	if (startConect) {
+		Conect* conect = new Conect();
+		conect->ConnectToServer();
+	}
 }
 
 void Player::Draw()
