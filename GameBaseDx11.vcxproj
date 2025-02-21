@@ -161,6 +161,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Runner.cpp" />
+    <ClCompile Include="Socket.cpp" />
     <ClCompile Include="SpeedUpIcon.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Runner.h" />
+    <ClInclude Include="Socket.h" />
     <ClInclude Include="SpeedUpIcon.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="TitleScene.h" />

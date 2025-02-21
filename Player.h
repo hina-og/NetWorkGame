@@ -9,6 +9,7 @@ class Player
 {
 public:
 	Player(GameObject* parent);
+	~Player();
 
 	void Initialize() override;
 

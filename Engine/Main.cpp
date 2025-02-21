@@ -1,10 +1,10 @@
-/// <summary>
-/// DxLib を入れたバージョン
-///  2023/12/6 花井
-/// </summary>
-
 #include "global.h"
 #include "RootObject.h"
+
+#pragma comment( lib, "ws2_32.lib" )
+
+// ポート番号
+const unsigned short SERVER_PORT = 8888;
 
 namespace Screen {
 	static const int WIDTH = 1280;
@@ -23,6 +23,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetMainWindowText(Screen::WINDOW_NAME);
 	SetWindowSizeExtendRate(Screen::WINDOW_EXTEND);
 	ChangeWindowMode(Screen::WINDOW_MODE); // Windowモードの場合
+
+
+
+
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{

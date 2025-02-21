@@ -40,16 +40,12 @@ void Hunter::Update()
     if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))
     {
         x -= speed_;
-        /*cam->camX += speed_;
-        if (x <= 40 * 4 + 20 && cam->overCamX < 40 * 10)
-        {
-            cam->overCamX += speed_;
-        }*/
-        if (cam->camX < 480)
+        cam->camX += speed_;
+        if (cam->camX > 480)
         {
             cam->camX += speed_;
         }
-        else
+        /*else
         {
             cam->overCamX -= speed_;
             if (cam->overCamX >= 0)
@@ -60,17 +56,18 @@ void Hunter::Update()
             {
                 cam->overCamX += speed_;
             }
-        }
+        }*/
     }
     if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
     {
         x += speed_;
         cam->camX -= speed_;
-        if (cam->camX > -480)
+
+        if (cam->camX < -480)
         {
             cam->camX -= speed_;
         }
-        else
+        /*else
         {
             if (cam->overCamX <= 0)
             {
@@ -80,21 +77,31 @@ void Hunter::Update()
             {
                 cam->overCamX += speed_;
             }
-        }
+        }*/
     }
     if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))
     {
         y -= speed_;
         cam->camY += speed_;
-        /*if (y <= 40 * 3 + 20 && cam->overCamX < 40 * 8 + 20)
+
+        if (cam->camY < 200)
         {
-            cam->overCamY += speed_;
-        }*/
+            cam->camY += speed_;
+        }
     }
     if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))
     {
         y += speed_;
         cam->camY -= speed_;
+
+        if (cam->camY > -200)
+        {
+            cam->camY -= speed_;
+        }
+        else
+        {
+            cam->overCamY += speed_;
+        }
     }
 
     Runner* pRunner = GetParent()->FindGameObject<Runner>();
@@ -146,7 +153,7 @@ void Hunter::Draw()
     }
     if (cam->isZoom_)
     {
-        DrawCircle(initPosX - cam->overCamX * cam->camDist, initPosY - cam->overCamY * cam->camDist, STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
+        DrawCircle(initPosX - (cam->overCamX / cam->camDist), initPosY - (cam->overCamY / cam->camDist), STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
         DrawBox(initPosX - STAGE::TILE_SIZE, initPosY - STAGE::TILE_SIZE, initPosX + STAGE::TILE_SIZE, initPosY + STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
     }
     else

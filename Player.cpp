@@ -4,10 +4,20 @@
 #include"Hunter.h"
 #include"Conect.h"
 
+//#include<ws2tcpip.h> 
+//#include <WS2tcpip.h>
+//#pragma comment( lib, "ws2_32.lib" )
+
+
+
 Player::Player(GameObject* parent)
 {
 	job_ = RUNNER;
 	startConect = false;
+}
+
+Player::~Player()
+{
 }
 
 void Player::Initialize()
