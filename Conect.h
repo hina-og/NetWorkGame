@@ -31,7 +31,13 @@ private:
 
 #include <cstdint>
 #include <string>
+#include <DxLib.h>
+#include <iostream>
+#include <sstream>
+#include <cstring>
 #include <stdexcept>
+
+#pragma comment(lib, "ws2_32.lib")
 
 // PLAYER構造体（プレイヤーの座標や状態を格納）
 struct PLAYER
@@ -47,12 +53,11 @@ class Conect
 {
 public:
     // コンストラクタとデストラクタ
-    Conect();
+    Conect(const std::string& serverAddress, unsigned short port);
     ~Conect();
-    bool ConnectToServer();  // 接続処理を行い、成功したら true を返す
+    void ConnectToServer();  // 接続処理を行い、成功したら true を返す
     void ReceiveData();      // サーバからのデータを受信する
-    void SendData(const PLAYER& player);  // プレイヤーのデータを送信する
-
+    void SendData(SOCKADDR_IN _serverAddr);  // プレイヤーのデータを送信する
 private:
     // サーバのIPアドレスとポート番号
     std::string m_serverAddress;

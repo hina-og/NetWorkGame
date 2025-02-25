@@ -76,44 +76,44 @@ int main()
 		{
 			std::cout << "受信します" << std::endl;
 
-			for (int i = 0; i != addressList.size(); i++)
-			{
-				if ((clientAddr.sin_addr.s_addr == addressList[i].sin_addr.s_addr) && (clientAddr.sin_port == addressList[i].sin_port))
-				{
-					isNewPlayer = false;
-					break;
-				}
-				else if (i == addressList.size() - 1)
-				{
-					addressList.push_back(clientAddr);
-				}
-			}
-			if (isNewPlayer)
-			{
-				for (int i = 0; i != playerList.size(); i++)
-				{
-					if (i == 0)
-					{
-						p.playerID = rand() % 1000;
-					}
-					if (p.playerID == playerList[i].playerID)//I同じIDがすでにあるなら最初から
-					{
-						i = 0;
-						continue;
-					}
-				}
-				playerList.push_back(p);
-			}
+			//for (int i = 0; i != addressList.size(); i++)
+			//{
+			//	if ((clientAddr.sin_addr.s_addr == addressList[i].sin_addr.s_addr) && (clientAddr.sin_port == addressList[i].sin_port))
+			//	{
+			//		isNewPlayer = false;
+			//		break;
+			//	}
+			//	else if (i == addressList.size() - 1)
+			//	{
+			//		addressList.push_back(clientAddr);
+			//	}
+			//}
+			//if (isNewPlayer)
+			//{
+			//	for (int i = 0; i != playerList.size(); i++)
+			//	{
+			//		if (i == 0)
+			//		{
+			//			p.playerID = rand() % 1000;
+			//		}
+			//		if (p.playerID == playerList[i].playerID)//I同じIDがすでにあるなら最初から
+			//		{
+			//			i = 0;
+			//			continue;
+			//		}
+			//	}
+			//	playerList.push_back(p);
+			//}
 
-			//データ出力
-			for (int i = 0; i < playerList.size(); i++)
-			{
-				//std::bitset<8> bitVal(playerList[i].state);
-				std::cout << "ID : " << playerList[i].playerID << std::endl;
-				std::cout << "Pos : " << playerList[i].x << "," << playerList[i].y << std::endl;
-				std::cout << "State : " << playerList[i].state << std::endl;
+			////データ出力
+			//for (int i = 0; i < playerList.size(); i++)
+			//{
+			//	////std::bitset<8> bitVal(playerList[i].state);
+			//	//std::cout << "ID : " << playerList[i].playerID << std::endl;
+			//	//std::cout << "Pos : " << playerList[i].x << "," << playerList[i].y << std::endl;
+			//	//std::cout << "State : " << playerList[i].state << std::endl;
 
-			}
+			//}
 		}
 		// 受信エラー	未受信時はWSAEWOULDBLOCKが発生
 		else if (WSAGetLastError() != WSAEWOULDBLOCK)

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameBaseDx11", "GameBaseDx11.vcxproj", "{D68FA256-14C6-4B85-B85F-EC93C87CD599}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetWorkGameServer", "..\NetWorkGameServer\NetWorkGameServer.vcxproj", "{519E7DAE-345E-4EAF-B184-172A44766D76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetWorkGameServer", "NetWorkGameServer\NetWorkGameServer.vcxproj", "{519E7DAE-345E-4EAF-B184-172A44766D76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

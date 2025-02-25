@@ -200,13 +200,6 @@ int Conect::inet_pton_custom(const char* str, void* addr) {
 #endif
 #if 1
 #include "Conect.h"
-#include <DxLib.h>
-#include <iostream>
-#include <sstream>
-#include <cstring>
-#include <stdexcept>
-
-#pragma comment(lib, "ws2_32.lib")
 
 // コンストラクタ
 Conect::Conect(const std::string& serverAddress, unsigned short port)
@@ -262,6 +255,7 @@ void Conect::ConnectToServer()
 
     // サーバアドレスの設定
     SOCKADDR_IN serverAddr = {};
+    memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(m_serverPort);
 
@@ -274,16 +268,25 @@ void Conect::ConnectToServer()
     {
         HandleError("Failed to connect to server");
     }
+    SendData(serverAddr);
+}
+
+void Conect::ReceiveData()
+{
 }
 
 // サーバにデータを送信する
-void Conect::SendData(const PLAYER& player)
+void Conect::SendData(SOCKADDR_IN _serverAddr)
 {
-    PLAYER sendParam = player;
-    sendParam.x = htonl(player.x);
-    sendParam.y = htonl(player.y);
+    //PLAYER sendParam = player;
+    //sendParam.x = htonl(player.x);
+    //sendParam.y = htonl(player.y);
 
-    int ret = send(m_socket, (char*)&sendParam, sizeof(sendParam), 0);
+    PLAYER sendParam;
+    sendParam.x = htonl(714);
+    sendParam.y = htonl(800);
+
+    int ret = sendto(m_socket, (char*)&sendParam, sizeof(sendParam), 0,(SOCKADDR*)&_serverAddr,sizeof(_serverAddr));
     if (ret == SOCKET_ERROR)
     {
         HandleError("Failed to send data");

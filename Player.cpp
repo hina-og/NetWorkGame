@@ -40,13 +40,15 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	if (CheckHitKey(KEY_INPUT_RETURN)) {
-		startConect = true;
-	}
-	if (startConect) {
-		Conect* conect = new Conect();
-		conect->ConnectToServer();
-	}
+	//if (CheckHitKey(KEY_INPUT_RETURN)) {
+	//	startConect = true;
+	//}
+	//if (startConect) {
+	//	Conect* conect = new Conect("192.168.42.23",8888);
+	//	conect->ConnectToServer();
+	//}
+	Conect* conect = new Conect("192.168.42.82", 8888);
+	conect->ConnectToServer();
 }
 
 void Player::Draw()
