@@ -1,3 +1,5 @@
+#if 0
+
 #include <iostream>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
@@ -141,6 +143,51 @@ int main()
 		// エラー処理
 		std::cout << "WinSock終了処理に失敗しました" << std::endl;
 	}
+
+	return 0;
+}
+
+#endif
+
+#include <iostream>
+#include <DxLib.h>
+
+const unsigned short SERVER_PORT = 8888;
+BYTE Data[65500];
+
+struct PLAYER
+{
+	int x, y;
+	int state;
+	int playerID;
+};
+
+int main()
+{
+	std::cout << "サーバー" << std::endl;
+
+	PLAYER pData;
+
+	//if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
+	//{
+	//	return -1;			// エラーが起きたら直ちに終了
+	//}
+	//ソケット作成
+	int sock;
+	sock = MakeUDPSocket(SERVER_PORT);
+
+	// パケット受信
+	while (ProcessMessage() == 0)
+	{
+		// データを受信
+		int ret = NetWorkRecvUDP(sock, NULL, NULL, Data, sizeof(Data), FALSE);
+		if (ret >= 0)
+		{
+			std::cout << "受信します" << std::endl;
+		}
+	}
+
+	//DxLib_End();
 
 	return 0;
 }

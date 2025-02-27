@@ -14,6 +14,8 @@ Player::Player(GameObject* parent)
 {
 	job_ = RUNNER;
 	startConect = false;
+	conect = new Conect("192.168.43.1", 8888);
+	conect->InitializeSocket();
 }
 
 Player::~Player()
@@ -47,7 +49,7 @@ void Player::Update()
 	//	Conect* conect = new Conect("192.168.42.23",8888);
 	//	conect->ConnectToServer();
 	//}
-	Conect* conect = new Conect("192.168.42.82", 8888);
+	
 	conect->ConnectToServer();
 }
 

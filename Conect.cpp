@@ -201,6 +201,10 @@ int Conect::inet_pton_custom(const char* str, void* addr) {
 #if 1
 #include "Conect.h"
 
+const char* SERVER_ADDRESS = "192.168.43.1";
+
+
+
 // コンストラクタ
 Conect::Conect(const std::string& serverAddress, unsigned short port)
     : m_serverAddress(serverAddress), m_serverPort(port), m_socket(INVALID_SOCKET)
@@ -251,7 +255,7 @@ void Conect::CleanupSocket()
 // サーバに接続する
 void Conect::ConnectToServer()
 {
-    InitializeSocket();
+    //InitializeSocket();
 
     // サーバアドレスの設定
     SOCKADDR_IN serverAddr = {};
@@ -269,6 +273,8 @@ void Conect::ConnectToServer()
         HandleError("Failed to connect to server");
     }
     SendData(serverAddr);
+    ScreenFlip();
+    WaitTimer(16);
 }
 
 void Conect::ReceiveData()
@@ -283,8 +289,8 @@ void Conect::SendData(SOCKADDR_IN _serverAddr)
     //sendParam.y = htonl(player.y);
 
     PLAYER sendParam;
-    sendParam.x = htonl(714);
-    sendParam.y = htonl(800);
+    sendParam.x = 714;
+    sendParam.y = 800;
 
     int ret = sendto(m_socket, (char*)&sendParam, sizeof(sendParam), 0,(SOCKADDR*)&_serverAddr,sizeof(_serverAddr));
     if (ret == SOCKET_ERROR)

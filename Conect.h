@@ -58,6 +58,8 @@ public:
     void ConnectToServer();  // 接続処理を行い、成功したら true を返す
     void ReceiveData();      // サーバからのデータを受信する
     void SendData(SOCKADDR_IN _serverAddr);  // プレイヤーのデータを送信する
+
+    void InitializeSocket();
 private:
     // サーバのIPアドレスとポート番号
     std::string m_serverAddress;
@@ -67,7 +69,7 @@ private:
     int m_socket;
 
     // 接続処理（内部で使用）
-    void InitializeSocket();
+    
     void CleanupSocket();
 
     // エラー処理
