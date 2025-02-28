@@ -201,7 +201,7 @@ int Conect::inet_pton_custom(const char* str, void* addr) {
 #if 1
 #include "Conect.h"
 
-const char* SERVER_ADDRESS = "192.168.43.1";
+//const char* SERVER_ADDRESS = "192.168.43.1";
 
 
 

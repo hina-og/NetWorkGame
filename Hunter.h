@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Camera.h"
-#include "Stage.h"
+#include "Player.h"
 
 struct Point
 {

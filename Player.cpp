@@ -1,8 +1,8 @@
 #include "Player.h"
-#include"Stage.h"
-#include"Runner.h"
-#include"Hunter.h"
-#include"Conect.h"
+#include "Stage.h"
+#include "Runner.h"
+#include "Hunter.h"
+//#include "Conect.h"
 
 //#include<ws2tcpip.h> 
 //#include <WS2tcpip.h>
@@ -14,8 +14,10 @@ Player::Player(GameObject* parent)
 {
 	job_ = RUNNER;
 	startConect = false;
-	conect = new Conect("192.168.43.1", 8888);
-	conect->InitializeSocket();
+	//conect = new Conect("192.168.43.1", 8888);
+	//conect->InitializeSocket();
+	
+	//client = new Client();
 }
 
 Player::~Player()
@@ -27,7 +29,7 @@ void Player::Initialize()
 	switch (job_) {
 	case RUNNER:
 	{
-		Instantiate<Runner>(GetParent());
+		Instantiate<Runner>(this);
 		break;
 	}
 	case HUNTER:
@@ -49,8 +51,10 @@ void Player::Update()
 	//	Conect* conect = new Conect("192.168.42.23",8888);
 	//	conect->ConnectToServer();
 	//}
-	
-	conect->ConnectToServer();
+	//
+	//conect->ConnectToServer();
+
+	//client->Connect();
 }
 
 void Player::Draw()

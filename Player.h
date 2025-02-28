@@ -1,8 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Camera.h"
+#include "Client.h"
 
-class Conect;
+//class Conect;
 
 class Player
 	: public GameObject
@@ -22,5 +22,9 @@ private:
 	int job_;
 	bool startConect;
 	bool isConnected;  // 接続状態を管理するフラグ
-	Conect* conect;    // Conect クラスのインスタンスを持つ
+	//Conect* conect;    // Conect クラスのインスタンスを持つ
+	Client* client;
+
+protected:
+	PLAYER pData;
 };

@@ -151,27 +151,29 @@ int main()
 
 #include <iostream>
 #include <DxLib.h>
+#include <vector>
 
 const unsigned short SERVER_PORT = 8888;
-BYTE Data[65500];
+char data[13];
 
 struct PLAYER
 {
-	int x, y;
+	bool job;//0:Hunter,1:Runner
+	int x, y;//x:４桁,y:３桁
 	int state;
-	int playerID;
+	int playerID;//４桁
+	//   job  x    y   state  ID
+	//例：0  0344 652    1   1234
 };
+
+std::vector<PLAYER> playerList;
+
+int MakePlayerID();
 
 int main()
 {
 	std::cout << "サーバー" << std::endl;
 
-	PLAYER pData;
-
-	//if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
-	//{
-	//	return -1;			// エラーが起きたら直ちに終了
-	//}
 	//ソケット作成
 	int sock;
 	sock = MakeUDPSocket(SERVER_PORT);
@@ -179,15 +181,62 @@ int main()
 	// パケット受信
 	while (ProcessMessage() == 0)
 	{
+		
+		IPDATA* playerIP = nullptr;//送信側のIPアドレス
+		int* playerPort = 0;
+
 		// データを受信
-		int ret = NetWorkRecvUDP(sock, NULL, NULL, Data, sizeof(Data), FALSE);
-		if (ret >= 0)
+		int ret = NetWorkRecvUDP(sock, playerIP, playerPort, data, sizeof(data), FALSE);
+		if (ret > 0)
 		{
 			std::cout << "受信します" << std::endl;
+
+			PLAYER p = {};
+			std::memcpy(data, &p, sizeof(PLAYER));
+
+
+			if (p.playerID == 0)
+			{
+				p.playerID = MakePlayerID();
+			}
+			for (int i = 0; i < playerList.size(); i++)
+			{
+				if (p.playerID == playerList[i].playerID)
+				{
+					break;
+				}
+				if (i == playerList.size() - 1)//最後まで見て同じIDがなければ
+				{
+					playerList.push_back(p);//Listに追加する
+				}
+			}
+		}
+
+		for (int i = 0; i < playerList.size(); i++)
+		{
+			int sendResult = NetWorkSendUDP(sock, *playerIP, *playerPort, data, sizeof(data));
+
+			if (sendResult > 0)
+			{
+				std::cout << "ID : " << playerList[i].playerID << "に送信します" << std::endl;
+			}
 		}
 	}
 
-	//DxLib_End();
-
 	return 0;
+}
+
+int MakePlayerID()
+{
+	int ID = rand() % 9999;
+	for (int i = 0; i < playerList.size(); i++)
+	{
+		if (ID == playerList[i].playerID)//同じIDがすでにあるなら最初から
+		{
+			i = 0;
+			ID = rand() % 9999;
+			continue;
+		}
+	}
+	return ID;
 }

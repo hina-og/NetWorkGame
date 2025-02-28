@@ -1,9 +1,6 @@
 ﻿#include "Hunter.h"
-#include "Camera.h"
 #include "Stage.h"
-#include"Player.h"
-
-#include "Player.h"
+//#include "Player.h"
 #include"Runner.h"
 #include <cmath>  // acos, PI などを使うために必要
 #include<algorithm>
@@ -30,78 +27,25 @@ void Hunter::Initialize()
 
 void Hunter::Update()
 {
-    Camera* cam = (Camera*)FindObject("Camera");
 
     int prevX = x;
     int prevY = y;
-    int prevCamX = cam->camX;
-    int prevCamY = cam->camY;
 
     if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))
     {
         x -= speed_;
-        cam->camX += speed_;
-        if (cam->camX > 480)
-        {
-            cam->camX += speed_;
-        }
-        /*else
-        {
-            cam->overCamX -= speed_;
-            if (cam->overCamX >= 0)
-            {
-                cam->overCamX -= speed_;
-            }
-            else
-            {
-                cam->overCamX += speed_;
-            }
-        }*/
     }
     if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
     {
         x += speed_;
-        cam->camX -= speed_;
-
-        if (cam->camX < -480)
-        {
-            cam->camX -= speed_;
-        }
-        /*else
-        {
-            if (cam->overCamX <= 0)
-            {
-                cam->overCamX -= speed_;
-            }
-            else
-            {
-                cam->overCamX += speed_;
-            }
-        }*/
     }
     if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))
     {
         y -= speed_;
-        cam->camY += speed_;
-
-        if (cam->camY < 200)
-        {
-            cam->camY += speed_;
-        }
     }
     if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))
     {
         y += speed_;
-        cam->camY -= speed_;
-
-        if (cam->camY > -200)
-        {
-            cam->camY -= speed_;
-        }
-        else
-        {
-            cam->overCamY += speed_;
-        }
     }
 
     Runner* pRunner = GetParent()->FindGameObject<Runner>();
@@ -109,30 +53,20 @@ void Hunter::Update()
 
     // ステージとの当たり判定のチェック
     Stage* stage = (Stage*)FindObject("Stage");
-    //if (stage != nullptr && CollisionStage(stage))
-    //{
-    //    // 壁に衝突した場合の処理
-    //    //x = prevX;
-    //    //y = prevY;
-    //    //cam->camX = prevCamX;
-    //    //cam->camY = prevCamY;
-    //}
+
     if (CollisionStageX(stage, x, x + STAGE::TILE_SIZE / 2))
     {
         x = prevX;
-        cam->camX = prevCamX;
     }
     if (CollisionStageY(stage, y, y + STAGE::TILE_SIZE / 2))
     {
         y = prevY;
-        cam->camY = prevCamY;
     }
+    
 }
 
 void Hunter::Draw()
 {
-    Camera* cam = (Camera*)FindObject("Camera");
-
     switch (state_)
     {
     case NONE:
@@ -151,20 +85,8 @@ void Hunter::Draw()
     default:
         break;
     }
-    if (cam->isZoom_)
-    {
-        DrawCircle(initPosX - (cam->overCamX / cam->camDist), initPosY - (cam->overCamY / cam->camDist), STAGE::TILE_SIZE / 2 * cam->camDist, GetColor(255, 0, 0), TRUE);
-        DrawBox(initPosX - STAGE::TILE_SIZE, initPosY - STAGE::TILE_SIZE, initPosX + STAGE::TILE_SIZE, initPosY + STAGE::TILE_SIZE, GetColor(255, 0, 0), FALSE);
-    }
-    else
-    {
-        DrawCircle(x, y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
-        DrawBox(x - STAGE::TILE_SIZE / 2 + 1 , y - STAGE::TILE_SIZE / 2 + 1 , x + STAGE::TILE_SIZE / 2, y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
-    }
-    std::string str = std::to_string(cam->overCamX);
-    DrawString(x, y, str.c_str(), GetColor(0, 255, 255));
-    //DrawRotaGraph(transform_.position_.x, transform_.position_.y,rate_,angle_, hArrow_, TRUE);
-
+    DrawCircle(x, y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+    DrawBox(x - STAGE::TILE_SIZE / 2 + 1, y - STAGE::TILE_SIZE / 2 + 1, x + STAGE::TILE_SIZE / 2, y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
 }
 
 void Hunter::Release()
@@ -174,7 +96,6 @@ void Hunter::Release()
 
 float Hunter::DirectionCalculation(XMFLOAT3 _position)
 {
-    Camera* cam = (Camera*)FindObject("Camera");
     // プレイヤー位置と自分の位置を取得
     XMFLOAT2 p1, p2;
     transform_.position_ = { (float)(x), (float)(y) , 0.0f };
