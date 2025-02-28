@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Stage.h"
 #include "Hunter.h"
+#include "Runner.h"
 //#include"Player.h"
 #include"Item.h"
 #include"EyeIcon.h"
@@ -19,6 +20,7 @@ void PlayScene::Initialize()
 	Instantiate<Stage>(this);
 	//Instantiate<Player>(this);
 	Instantiate<Hunter>(this);
+	Instantiate<Runner>(this);
 	/*Instantiate<Item>(this);*/
 	for (int i = 0; i < 5; i++) {
 		//Instantiate<EyeIcon>(this);

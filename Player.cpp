@@ -9,58 +9,70 @@
 //#pragma comment( lib, "ws2_32.lib" )
 
 
+//void Player::Initialize()
+//{
+//	switch (job_) {
+//	case RUNNER:
+//	{
+//		Instantiate<Runner>(this);
+//		break;
+//	}
+//	case HUNTER:
+//	{
+//		Instantiate<Hunter>(this);
+//		break;
+//	}
+//	default:
+//		break;
+//	}
+//}
 
-Player::Player(GameObject* parent)
+
+bool Player::CollisionStage(Stage* stage)
 {
-	job_ = RUNNER;
-	startConect = false;
-	//conect = new Conect("192.168.43.1", 8888);
-	//conect->InitializeSocket();
-	
-	//client = new Client();
+    int tileX = transform_.position_.x / STAGE::TILE_SIZE;
+    int tileY = transform_.position_.y / STAGE::TILE_SIZE;
+
+    //if (tileX < 0 || tileX >= STAGE::WIDTH || tileY < 0 || tileY >= STAGE::HEIGHT)
+    //{
+    //    return false;
+    //}
+
+    return stage->IsWall(tileY, tileX) == 1;
 }
 
-Player::~Player()
+bool Player::CollisionStageX(Stage* stage, int _x1, int _x2)
 {
+    int tileX = (_x1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
+    int tileY = transform_.position_.y / STAGE::TILE_SIZE;
+
+    if (stage->IsWall(tileY, tileX))
+    {
+        return true;
+    }
+
+    tileX = _x2 / STAGE::TILE_SIZE;
+    if (stage->IsWall(tileY, tileX))
+    {
+        return true;
+    }
+    return false;
 }
 
-void Player::Initialize()
+bool Player::CollisionStageY(Stage* stage, int _y1, int _y2)
 {
-	switch (job_) {
-	case RUNNER:
-	{
-		Instantiate<Runner>(this);
-		break;
-	}
-	case HUNTER:
-	{
-		Instantiate<Hunter>(this);
-		break;
-	}
-	default:
-		break;
-	}
-}
+    int tileX = transform_.position_.x / STAGE::TILE_SIZE;
+    int tileY = (_y1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
 
-void Player::Update()
-{
-	//if (CheckHitKey(KEY_INPUT_RETURN)) {
-	//	startConect = true;
-	//}
-	//if (startConect) {
-	//	Conect* conect = new Conect("192.168.42.23",8888);
-	//	conect->ConnectToServer();
-	//}
-	//
-	//conect->ConnectToServer();
-
-	//client->Connect();
-}
-
-void Player::Draw()
-{
-}
-
-void Player::Release()
-{
+    if (stage->IsWall(tileY, tileX))
+    {
+        return true;
+    }
+    tileX = transform_.position_.x / STAGE::TILE_SIZE;
+    tileY = _y2 / STAGE::TILE_SIZE;
+    if (stage->IsWall(tileY, tileX))
+    {
+        return true;
+    }
+    return false;
 }

@@ -1,13 +1,21 @@
 #include "Client.h"
 #include <sstream>
 
+
+//const char* SERVER_ADDRESS{ "192.168.43.1" };
+
+
+const char* SERVER_ADDRESS{ "192.168.33.6" };
+
+
+const unsigned short SERVER_PORT = 10654;
 char data[13];
 
 Client::Client()
 {
-	sock = MakeUDPSocket(SERVER_PORT);
-	CharToIP(SERVER_ADDRESS, ipAddress);
-	p = {};
+	sock = MakeUDPSocket(-1);
+	CharToIP(ipAddress);
+	p = { 0,100,200,2,0 };
 }
 
 Client::~Client()
@@ -19,9 +27,19 @@ void Client::Connect()
 {
 	SetPlayerData(p);
 	NetWorkSendUDP(sock, ipAddress, SERVER_PORT, data, sizeof(data));
+
+
+
+	int serverPort = 12345;
+
+	IPDATA senderIP;
+	int senderPort;
+
+
+	int receivedSize = NetWorkRecvUDP(sock, &senderIP, &senderPort, data, sizeof(data),FALSE);
 }
 
-int Client::CharToIP(const char* ipString, IPDATA ipData)
+int Client::CharToIP(IPDATA &ipData)
 {
 	unsigned int ip[4];
 

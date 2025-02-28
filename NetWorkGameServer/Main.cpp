@@ -153,8 +153,8 @@ int main()
 #include <DxLib.h>
 #include <vector>
 
-const unsigned short SERVER_PORT = 8888;
-char data[13];
+const unsigned short SERVER_PORT = 10654;
+char data[14];
 
 struct PLAYER
 {
@@ -190,26 +190,32 @@ int main()
 		if (ret > 0)
 		{
 			std::cout << "ŽóM‚µ‚Ü‚·" << std::endl;
+			
+			PLAYER p = { 0,100,200,2,0 };
 
-			PLAYER p = {};
 			std::memcpy(data, &p, sizeof(PLAYER));
 
-
-			if (p.playerID == 0)
-			{
-				p.playerID = MakePlayerID();
-			}
-			for (int i = 0; i < playerList.size(); i++)
-			{
-				if (p.playerID == playerList[i].playerID)
-				{
-					break;
-				}
-				if (i == playerList.size() - 1)//ÅŒã‚Ü‚ÅŒ©‚Ä“¯‚¶ID‚ª‚È‚¯‚ê‚Î
-				{
-					playerList.push_back(p);//List‚É’Ç‰Á‚·‚é
-				}
-			}
+			//if (p.playerID == 0)
+			//{
+			//	//p.playerID = MakePlayerID();
+			//	p.playerID = 1234;
+			//	//playerList.push_back(p);//List‚É’Ç‰Á‚·‚é
+			//	if (playerList.size() == 0)
+			//	{
+			//		playerList.push_back(p);//List‚É’Ç‰Á‚·‚é
+			//	}
+			//}
+			//for (int i = 0; i < playerList.size(); i++)
+			//{
+			//	if (p.playerID == playerList[i].playerID)
+			//	{
+			//		break;
+			//	}
+			//	if (i == playerList.size() - 1)//ÅŒã‚Ü‚ÅŒ©‚Ä“¯‚¶ID‚ª‚È‚¯‚ê‚Î
+			//	{
+			//		playerList.push_back(p);//List‚É’Ç‰Á‚·‚é
+			//	}
+			//}
 		}
 
 		for (int i = 0; i < playerList.size(); i++)

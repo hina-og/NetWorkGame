@@ -1,30 +1,23 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Client.h"
+#include "Stage.h"
 
 //class Conect;
 
 class Player
 	: public GameObject
 {
-public:
-	Player(GameObject* parent);
-	~Player();
-
-	void Initialize() override;
-
-	void Update() override;
-
-	void Draw() override;
-
-	void Release() override;
-private:
 	int job_;
 	bool startConect;
 	bool isConnected;  // 接続状態を管理するフラグ
 	//Conect* conect;    // Conect クラスのインスタンスを持つ
-	Client* client;
 
 protected:
 	PLAYER pData;
+	Client* client;
+
+	bool CollisionStage(Stage* stage);
+	bool CollisionStageX(Stage* stage, int _x1, int _x2);
+	bool CollisionStageY(Stage* stage, int _x1, int _x2);
 };

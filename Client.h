@@ -1,8 +1,7 @@
 #pragma once
 #include <DxLib.h>
 
-const char* SERVER_ADDRESS{ "192.168.43.1" };
-const unsigned short SERVER_PORT = 8888;
+
 
 struct PLAYER
 {
@@ -24,7 +23,7 @@ public:
 	~Client();
 
 	void Connect();
-	int CharToIP(const char* ipString, IPDATA ipData);
+	int CharToIP(IPDATA &ipData);
 	void SetPlayerData(bool _job, int _x, int _y, int _state, int _playerID);
 	void SetPlayerData(PLAYER _pData);
 };

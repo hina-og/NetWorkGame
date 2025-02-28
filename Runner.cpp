@@ -3,9 +3,10 @@
 
 Runner::Runner(GameObject* parent)
 {
+    objectName_ = "Runner";
     speed_ = 2;
-    x = initPosX;
-    y = initPosY;
+    transform_.position_.x = initPosX;
+    transform_.position_.y = initPosY;
 
     state_ = CANLOOK;
 }
@@ -16,24 +17,24 @@ void Runner::Initialize()
 
 void Runner::Update()
 {
-    int prevX = x;
-    int prevY = y;
+    int prevX = transform_.position_.x;
+    int prevY = transform_.position_.y;
 
     if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))
     {
-        x -= speed_;
+        transform_.position_.x -= speed_;
     }
     if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
     {
-        x += speed_;
+        transform_.position_.x += speed_;
     }
     if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))
     {
-        y -= speed_;
+        transform_.position_.y -= speed_;
     }
     if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))
     {
-        y += speed_;
+        transform_.position_.y += speed_;
     }
 }
 

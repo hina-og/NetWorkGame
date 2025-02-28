@@ -3,11 +3,9 @@
 #include "Player.h"
 
 class Runner
-	: public GameObject
+	: public Player
 {
 	int speed_;
-	int x;
-	int y;
 	const int initPosX = 1280 / 2;
 	const int initPosY = 720 / 2;
 	int state_;

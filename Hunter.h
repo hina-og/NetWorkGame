@@ -1,19 +1,13 @@
 #pragma once
-#include "Engine/GameObject.h"
 #include "Player.h"
 
-struct Point
-{
-	int x_;
-	int y_;
-};
+
 
 class Hunter
-	: public GameObject
+	: public Player
 {
 	int speed_;
-	int x;
-	int y;
+
 	const int initPosX = 1280 /2;
 	const int initPosY = 720 / 2 ;
 	int state_;
@@ -35,7 +29,5 @@ public:
 
 	void Release() override;
 
-	bool CollisionStage(Stage* stage);
-	bool CollisionStageX(Stage* stage, int _x1, int _x2);
-	bool CollisionStageY(Stage* stage, int _x1, int _x2);
+
 };

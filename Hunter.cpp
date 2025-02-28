@@ -1,7 +1,6 @@
 ﻿#include "Hunter.h"
 #include "Stage.h"
-//#include "Player.h"
-#include"Runner.h"
+#include "Runner.h"
 #include <cmath>  // acos, PI などを使うために必要
 #include<algorithm>
 #include<numbers>
@@ -10,6 +9,10 @@
 
 Hunter::Hunter(GameObject* parent)
 {
+    objectName_ = "Hunter";
+
+    client = new Client();
+
 }
 
 void Hunter::Initialize()
@@ -18,8 +21,8 @@ void Hunter::Initialize()
     assert(hArrow_ >= 0);
     speed_ = 2;
 
-    x = initPosX;
-    y = initPosY;
+    transform_.position_.x = initPosX;
+    transform_.position_.y = initPosY;
 
     state_ = CANLOOK;
     rate_ = 1.0f;
@@ -28,24 +31,24 @@ void Hunter::Initialize()
 void Hunter::Update()
 {
 
-    int prevX = x;
-    int prevY = y;
+    int prevX = transform_.position_.x;
+    int prevY = transform_.position_.y;
 
     if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))
     {
-        x -= speed_;
+        transform_.position_.x -= speed_;
     }
     if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))
     {
-        x += speed_;
+        transform_.position_.x += speed_;
     }
     if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))
     {
-        y -= speed_;
+        transform_.position_.y -= speed_;
     }
     if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))
     {
-        y += speed_;
+        transform_.position_.y += speed_;
     }
 
     Runner* pRunner = GetParent()->FindGameObject<Runner>();
@@ -54,15 +57,18 @@ void Hunter::Update()
     // ステージとの当たり判定のチェック
     Stage* stage = (Stage*)FindObject("Stage");
 
-    if (CollisionStageX(stage, x, x + STAGE::TILE_SIZE / 2))
+    if (CollisionStageX(stage, transform_.position_.x, transform_.position_.x + STAGE::TILE_SIZE / 2))
     {
-        x = prevX;
+        transform_.position_.x = prevX;
     }
-    if (CollisionStageY(stage, y, y + STAGE::TILE_SIZE / 2))
+    if (CollisionStageY(stage, transform_.position_.y, transform_.position_.y + STAGE::TILE_SIZE / 2))
     {
-        y = prevY;
+        transform_.position_.y = prevY;
     }
     
+
+    client->SetPlayerData(pData);
+    client->Connect();
 }
 
 void Hunter::Draw()
@@ -79,26 +85,26 @@ void Hunter::Draw()
     }
     case CANLOOK:
     {
-        DrawRotaGraph(x-STAGE::TILE_SIZE, y-STAGE::TILE_SIZE, 1.0, angle_, hArrow_, TRUE, FALSE);
+        DrawRotaGraph(transform_.position_.x - STAGE::TILE_SIZE, transform_.position_.y - STAGE::TILE_SIZE, 1.0, angle_, hArrow_, TRUE, FALSE);
         break;
     }
     default:
         break;
     }
-    DrawCircle(x, y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
-    DrawBox(x - STAGE::TILE_SIZE / 2 + 1, y - STAGE::TILE_SIZE / 2 + 1, x + STAGE::TILE_SIZE / 2, y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
+    DrawCircle(transform_.position_.x, transform_.position_.y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+    DrawBox(transform_.position_.x - STAGE::TILE_SIZE / 2 + 1, transform_.position_.y - STAGE::TILE_SIZE / 2 + 1, transform_.position_.x + STAGE::TILE_SIZE / 2, transform_.position_.y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
 }
 
 void Hunter::Release()
 {
-
+    delete client;
 }
 
 float Hunter::DirectionCalculation(XMFLOAT3 _position)
 {
     // プレイヤー位置と自分の位置を取得
     XMFLOAT2 p1, p2;
-    transform_.position_ = { (float)(x), (float)(y) , 0.0f };
+    transform_.position_ = { (float)(transform_.position_.x), (float)(transform_.position_.y) , 0.0f };
     p1 = { _position.x, _position.y };
     p2 = { 1.0, 0.0 };
 
@@ -115,51 +121,3 @@ float Hunter::DirectionCalculation(XMFLOAT3 _position)
     return angleRad;
 }
 
-bool Hunter::CollisionStage(Stage* stage)
-{
-    int tileX = x / STAGE::TILE_SIZE;
-    int tileY = y / STAGE::TILE_SIZE;
-
-    //if (tileX < 0 || tileX >= STAGE::WIDTH || tileY < 0 || tileY >= STAGE::HEIGHT)
-    //{
-    //    return false;
-    //}
-
-    return stage->IsWall(tileY, tileX) == 1;
-}
-
-bool Hunter::CollisionStageX(Stage* stage, int _x1, int _x2)
-{
-    int tileX = (_x1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
-    int tileY = y / STAGE::TILE_SIZE;
-
-    if (stage->IsWall(tileY, tileX))
-    {
-        return true;
-    }
-
-    tileX = _x2 / STAGE::TILE_SIZE;
-    if (stage->IsWall(tileY, tileX))
-    {
-        return true;
-    }
-    return false;
-}
-
-bool Hunter::CollisionStageY(Stage* stage, int _y1, int _y2)
-{
-    int tileX = x / STAGE::TILE_SIZE;
-    int tileY = (_y1 - STAGE::TILE_SIZE / 2) / STAGE::TILE_SIZE;
-
-    if (stage->IsWall(tileY, tileX))
-    {
-        return true;
-    }
-    tileX = x / STAGE::TILE_SIZE;
-    tileY = _y2 / STAGE::TILE_SIZE;
-    if (stage->IsWall(tileY, tileX))
-    {
-        return true;
-    }
-    return false;
-}
