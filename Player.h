@@ -3,20 +3,19 @@
 #include "Client.h"
 #include "Stage.h"
 
-//class Conect;
-
 class Player
 	: public GameObject
 {
-	int job_;
-	bool startConect;
-	bool isConnected;  // 接続状態を管理するフラグ
-	//Conect* conect;    // Conect クラスのインスタンスを持つ
-
 protected:
+	int state_;
+	int job_;
+	int speed_;
+
 	PLAYER pData;
 	Client* client;
 
+
+	float DirectionCalculation(XMFLOAT3 _position);
 	bool CollisionStage(Stage* stage);
 	bool CollisionStageX(Stage* stage, int _x1, int _x2);
 	bool CollisionStageY(Stage* stage, int _x1, int _x2);

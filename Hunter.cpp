@@ -25,7 +25,6 @@ void Hunter::Initialize()
     transform_.position_.y = initPosY;
 
     state_ = CANLOOK;
-    rate_ = 1.0f;
 }
 
 void Hunter::Update()
@@ -52,7 +51,8 @@ void Hunter::Update()
     }
 
     Runner* pRunner = GetParent()->FindGameObject<Runner>();
-    angle_ = DirectionCalculation(pRunner->GetPosition());
+    if(pRunner != nullptr)
+        angle_ = DirectionCalculation(pRunner->GetPosition());
 
     // ステージとの当たり判定のチェック
     Stage* stage = (Stage*)FindObject("Stage");
@@ -65,10 +65,14 @@ void Hunter::Update()
     {
         transform_.position_.y = prevY;
     }
-    
+    pData.job = 0;
+    pData.x = transform_.position_.x;
+    pData.y = transform_.position_.y;
+    pData.state = 1;
 
-    client->SetPlayerData(pData);
+    client->SetSendData(pData);
     client->Connect();
+    client->SetPlayerData(pData);
 }
 
 void Hunter::Draw()
@@ -98,26 +102,5 @@ void Hunter::Draw()
 void Hunter::Release()
 {
     delete client;
-}
-
-float Hunter::DirectionCalculation(XMFLOAT3 _position)
-{
-    // プレイヤー位置と自分の位置を取得
-    XMFLOAT2 p1, p2;
-    transform_.position_ = { (float)(transform_.position_.x), (float)(transform_.position_.y) , 0.0f };
-    p1 = { _position.x, _position.y };
-    p2 = { 1.0, 0.0 };
-
-    // ベクトル計算
-    VECTOR v1 = { p1.x - transform_.position_.x, p1.y - transform_.position_.y, 0.0f };
-    VECTOR v2 = { p2.x - transform_.position_.x, p2.y - transform_.position_.y , 0.0f };
-
-    // ベクトル正規化
-    v1 = VNorm(v1);
-    v2 = VNorm(v2);
-
-    // 角度計算 (ラジアンを度に変換)
-    float angleRad = atan2(v1.y, v1.x);
-    return angleRad;
 }
 

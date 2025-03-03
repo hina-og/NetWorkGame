@@ -4,11 +4,8 @@
 Runner::Runner(GameObject* parent)
 {
     objectName_ = "Runner";
-    speed_ = 2;
-    transform_.position_.x = initPosX;
-    transform_.position_.y = initPosY;
 
-    state_ = CANLOOK;
+    client = new Client();
 }
 
 void Runner::Initialize()
@@ -36,6 +33,28 @@ void Runner::Update()
     {
         transform_.position_.y += speed_;
     }
+
+
+    // ステージとの当たり判定のチェック
+    Stage* stage = (Stage*)FindObject("Stage");
+
+
+    if (CollisionStageX(stage, transform_.position_.x, transform_.position_.x + STAGE::TILE_SIZE / 2))
+    {
+        transform_.position_.x = prevX;
+    }
+    if (CollisionStageY(stage, transform_.position_.y, transform_.position_.y + STAGE::TILE_SIZE / 2))
+    {
+        transform_.position_.y = prevY;
+    }
+    pData.job = 1;
+    pData.x = transform_.position_.x;
+    pData.y = transform_.position_.y;
+    pData.state = 1;
+
+    client->SetSendData(pData);
+    client->Connect();
+    client->SetPlayerData(pData);
 }
 
 void Runner::Draw()

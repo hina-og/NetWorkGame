@@ -150,6 +150,8 @@ int main()
 #endif
 
 #include <iostream>
+#include <cstring>
+#include <string>
 #include <DxLib.h>
 #include <vector>
 
@@ -169,6 +171,7 @@ struct PLAYER
 std::vector<PLAYER> playerList;
 
 int MakePlayerID();
+void SetData(PLAYER _pData);
 
 int main()
 {
@@ -182,49 +185,69 @@ int main()
 	while (ProcessMessage() == 0)
 	{
 		
-		IPDATA* playerIP = nullptr;//送信側のIPアドレス
-		int* playerPort = 0;
+		IPDATA playerIP = {};//送信側のIPアドレス
+		int playerPort = 0;
 
 		// データを受信
-		int ret = NetWorkRecvUDP(sock, playerIP, playerPort, data, sizeof(data), FALSE);
+		int ret = NetWorkRecvUDP(sock, &playerIP, &playerPort, data, sizeof(data), FALSE);
 		if (ret > 0)
 		{
 			std::cout << "受信します" << std::endl;
-			
-			PLAYER p = { 0,100,200,2,0 };
 
-			std::memcpy(data, &p, sizeof(PLAYER));
+			PLAYER p = {};
 
-			//if (p.playerID == 0)
-			//{
-			//	//p.playerID = MakePlayerID();
-			//	p.playerID = 1234;
-			//	//playerList.push_back(p);//Listに追加する
-			//	if (playerList.size() == 0)
-			//	{
-			//		playerList.push_back(p);//Listに追加する
-			//	}
-			//}
-			//for (int i = 0; i < playerList.size(); i++)
-			//{
-			//	if (p.playerID == playerList[i].playerID)
-			//	{
-			//		break;
-			//	}
-			//	if (i == playerList.size() - 1)//最後まで見て同じIDがなければ
-			//	{
-			//		playerList.push_back(p);//Listに追加する
-			//	}
-			//}
-		}
+			// job: 1バイト目（00 → Hunter、01 → Runner）
+			p.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;
 
-		for (int i = 0; i < playerList.size(); i++)
-		{
-			int sendResult = NetWorkSendUDP(sock, *playerIP, *playerPort, data, sizeof(data));
+			// x: 2-5バイト目（1000） => data[1]からdata[4]
+			p.x = std::stoi(std::string(data + 1, 4));
 
-			if (sendResult > 0)
+			// y: 6-8バイト目（200） => data[5]からdata[7]
+			p.y = std::stoi(std::string(data + 5, 3));
+
+			// state: 9バイト目（3）
+			p.state = std::stoi(std::string(data + 8, 1));
+
+			// playerID: 10-13バイト目（1234）
+			p.playerID = std::stoi(std::string(data + 9, 4));
+
+			// 結果を表示
+			std::cout << "job: " << p.job << ", x: " << p.x << ", y: " << p.y
+				<< ", state: " << p.state << ", playerID: " << p.playerID << std::endl;
+			//std::memcpy(&p,data, sizeof(PLAYER));
+
+
+
+			if (p.playerID == 0)
 			{
-				std::cout << "ID : " << playerList[i].playerID << "に送信します" << std::endl;
+				//p.playerID = MakePlayerID();
+				p.playerID = MakePlayerID();
+				if (playerList.size() == 0)
+				{
+					playerList.push_back(p);//Listに追加する
+				}
+			}
+			for (int i = 0; i < playerList.size(); i++)
+			{
+				if (p.playerID == playerList[i].playerID)
+				{
+					break;
+				}
+				if (i == playerList.size() - 1)//最後まで見て同じIDがなければ
+				{
+					playerList.push_back(p);//Listに追加する
+				}
+			}
+			SetData(p);
+
+			for (int i = 0; i < playerList.size() - 1; i++)
+			{
+				int sendResult = NetWorkSendUDP(sock, playerIP, playerPort, data, sizeof(data));
+
+				if (sendResult > 0)
+				{
+					std::cout << "ID : " << playerList[i].playerID << "に送信します" << std::endl;
+				}
 			}
 		}
 	}
@@ -245,4 +268,9 @@ int MakePlayerID()
 		}
 	}
 	return ID;
+}
+
+void SetData(PLAYER _pData)
+{
+	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
 }

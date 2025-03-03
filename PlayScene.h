@@ -4,6 +4,7 @@
 class PlayScene
 	: public GameObject
 {
+	bool job_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

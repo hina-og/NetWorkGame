@@ -9,13 +9,12 @@ const char* SERVER_ADDRESS{ "192.168.33.6" };
 
 
 const unsigned short SERVER_PORT = 10654;
-char data[13];
+char data[14];
 
 Client::Client()
 {
 	sock = MakeUDPSocket(-1);
 	CharToIP(ipAddress);
-	p = { 0,100,200,2,0 };
 }
 
 Client::~Client()
@@ -25,18 +24,8 @@ Client::~Client()
 
 void Client::Connect()
 {
-	SetPlayerData(p);
-	NetWorkSendUDP(sock, ipAddress, SERVER_PORT, data, sizeof(data));
-
-
-
-	int serverPort = 12345;
-
-	IPDATA senderIP;
-	int senderPort;
-
-
-	int receivedSize = NetWorkRecvUDP(sock, &senderIP, &senderPort, data, sizeof(data),FALSE);
+	Send();
+	Recv();
 }
 
 int Client::CharToIP(IPDATA &ipData)
@@ -61,12 +50,49 @@ int Client::CharToIP(IPDATA &ipData)
 	return 0; // 成功
 }
 
-void Client::SetPlayerData(bool _job, int _x, int _y, int _state, int _playerID)
+void Client::Send()
+{
+	int serverPort = SERVER_PORT;
+	NetWorkSendUDP(sock, ipAddress, serverPort, data, sizeof(data));
+}
+
+void Client::Recv()
+{
+	IPDATA serverIP;
+	int serverPort;
+
+	int ret = NetWorkRecvUDP(sock, &serverIP, &serverPort, data, sizeof(data), FALSE);
+	if (ret > 0)
+	{
+		pData = {};
+		// job: 1バイト目（00 → Hunter、01 → Runner）
+		pData.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;
+
+		// x: 2-5バイト目（1000） => data[1]からdata[4]
+		pData.x = std::stoi(std::string(data + 1, 4));
+
+		// y: 6-8バイト目（200） => data[5]からdata[7]
+		pData.y = std::stoi(std::string(data + 5, 3));
+
+		// state: 9バイト目（3）
+		pData.state = std::stoi(std::string(data + 8, 1));
+
+		// playerID: 10-13バイト目（1234）
+		pData.playerID = std::stoi(std::string(data + 9, 4));
+	}
+}
+
+void Client::SetSendData(bool _job, int _x, int _y, int _state, int _playerID)
 {
 	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _job, _x, _y, _state, _playerID);
 }
 
-void Client::SetPlayerData(PLAYER _pData)
+void Client::SetSendData(PLAYER _pData)
 {
 	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
+}
+
+void Client::SetPlayerData(PLAYER& _pData)
+{
+	_pData = pData;
 }

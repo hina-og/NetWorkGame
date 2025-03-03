@@ -17,14 +17,18 @@ class Client
 {
 	int sock;
 	IPDATA ipAddress;
-	PLAYER p;
+	PLAYER pData;
 public:
 	Client();
 	~Client();
 
 	void Connect();
 	int CharToIP(IPDATA &ipData);
-	void SetPlayerData(bool _job, int _x, int _y, int _state, int _playerID);
-	void SetPlayerData(PLAYER _pData);
+	void Send();
+	void Recv();
+
+	void SetSendData(bool _job, int _x, int _y, int _state, int _playerID);
+	void SetSendData(PLAYER _pData);
+	void SetPlayerData(PLAYER& _pData);
 };
 

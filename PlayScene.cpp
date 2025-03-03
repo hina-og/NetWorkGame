@@ -12,19 +12,27 @@
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
 {
+	job_ = 1;//0:Hunter
 }
 
 void PlayScene::Initialize()
 {
 	Instantiate<Camera>(this);
 	Instantiate<Stage>(this);
-	//Instantiate<Player>(this);
-	Instantiate<Hunter>(this);
-	Instantiate<Runner>(this);
+
+	if (job_)
+	{
+		Instantiate<Runner>(this);
+	}
+	else
+	{
+		Instantiate<Hunter>(this);
+	}
+
 	/*Instantiate<Item>(this);*/
 	for (int i = 0; i < 5; i++) {
-		//Instantiate<EyeIcon>(this);
-		//Instantiate<SpeedUpIcon>(this);
+		Instantiate<EyeIcon>(this);
+		Instantiate<SpeedUpIcon>(this);
 	}
 }
 
