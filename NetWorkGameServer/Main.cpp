@@ -156,7 +156,7 @@ int main()
 #include <vector>
 
 const unsigned short SERVER_PORT = 10654;
-char data[14];
+char data[1024];
 
 struct PLAYER
 {
@@ -194,7 +194,7 @@ int main()
 		{
 			std::cout << "受信します" << std::endl;
 
-			PLAYER p = {};
+			PLAYER p = {};//受信したプレイヤーの情報を入れる
 
 			// job: 1バイト目（00 → Hunter、01 → Runner）
 			p.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;
@@ -217,7 +217,6 @@ int main()
 			//std::memcpy(&p,data, sizeof(PLAYER));
 
 
-
 			if (p.playerID == 0)
 			{
 				//p.playerID = MakePlayerID();
@@ -238,8 +237,11 @@ int main()
 					playerList.push_back(p);//Listに追加する
 				}
 			}
+
 			SetData(p);
 
+
+			//送信する部分
 			for (int i = 0; i < playerList.size() - 1; i++)
 			{
 				int sendResult = NetWorkSendUDP(sock, playerIP, playerPort, data, sizeof(data));
@@ -272,5 +274,13 @@ int MakePlayerID()
 
 void SetData(PLAYER _pData)
 {
-	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
+	std::string sendData = std::to_string(playerList.size()); // 最初にプレイヤー数を入れる
+	sendData += "|";
+	for (const auto& player : playerList)
+	{
+		snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d",player.job, player.x, player.y, player.state, player.playerID);
+
+		sendData += std::string(data, sizeof(data)) + "|"; // 各プレイヤーのデータを追加
+	}
+	//snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
 }

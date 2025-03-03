@@ -9,7 +9,7 @@ const char* SERVER_ADDRESS{ "192.168.33.6" };
 
 
 const unsigned short SERVER_PORT = 10654;
-char data[14];
+char data[1024];
 
 Client::Client()
 {
@@ -64,6 +64,34 @@ void Client::Recv()
 	int ret = NetWorkRecvUDP(sock, &serverIP, &serverPort, data, sizeof(data), FALSE);
 	if (ret > 0)
 	{
+
+		//std::string receivedStr(data, ret);
+		//std::stringstream ss(receivedStr);
+		//std::string token;
+
+		//std::getline(ss, token, '|');  // プレイヤー数を取得
+		//int playerCount = std::stoi(token);
+
+		//std::vector<PLAYER> newPlayerList;
+
+		//for (int i = 0; i < playerCount; i++)
+		//{
+		//	std::getline(ss, token, '|');
+		//	if (token.size() == 13)
+		//	{
+		//		PLAYER p;
+		//		p.job = (token[0] == '0' && token[1] == '0') ? 0 : 1;
+		//		p.x = std::stoi(token.substr(1, 4));
+		//		p.y = std::stoi(token.substr(5, 3));
+		//		p.state = std::stoi(token.substr(8, 1));
+		//		p.playerID = std::stoi(token.substr(9, 4));
+
+		//		newPlayerList.push_back(p);
+		//	}
+		//}
+
+		//playerList = newPlayerList; // 受信データで更新
+
 		pData = {};
 		// job: 1バイト目（00 → Hunter、01 → Runner）
 		pData.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;

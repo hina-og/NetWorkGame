@@ -1,6 +1,6 @@
 #pragma once
 #include <DxLib.h>
-
+#include <vector>
 
 
 struct PLAYER
@@ -18,6 +18,8 @@ class Client
 	int sock;
 	IPDATA ipAddress;
 	PLAYER pData;
+
+	std::vector<PLAYER> playerList;
 public:
 	Client();
 	~Client();
