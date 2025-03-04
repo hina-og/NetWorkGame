@@ -95,7 +95,7 @@ void Hunter::Draw()
     default:
         break;
     }
-    DrawCircle(transform_.position_.x, transform_.position_.y, STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), TRUE);
+    DrawCircle(transform_.position_.x, transform_.position_.y, STAGE::TILE_SIZE / 2, GetColor(0, 0, 255), TRUE);
     DrawBox(transform_.position_.x - STAGE::TILE_SIZE / 2 + 1, transform_.position_.y - STAGE::TILE_SIZE / 2 + 1, transform_.position_.x + STAGE::TILE_SIZE / 2, transform_.position_.y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
 }
 
