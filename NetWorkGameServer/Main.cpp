@@ -413,4 +413,5 @@ void SetData(PLAYER _pData)
 		snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", player.job, player.x, player.y, player.state, player.playerID);
 		sendData += std::string(data, sizeof(data)) + "|"; // Append each player's data
 	}
+	sendData.copy(data, sendData.size());
 }

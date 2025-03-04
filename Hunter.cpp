@@ -13,6 +13,11 @@ Hunter::Hunter(GameObject* parent)
 
     client = new Client();
 
+    pData.job = 0;
+    pData.playerID = 0;
+    pData.x = transform_.position_.x;
+    pData.y = transform_.position_.y;
+    pData.state = 1;
 }
 
 void Hunter::Initialize()
@@ -70,6 +75,7 @@ void Hunter::Update()
     pData.y = transform_.position_.y;
     pData.state = 1;
 
+     WaitTimer(32);
     client->SetSendData(pData);
     client->Connect();
     client->SetPlayerData(pData);
