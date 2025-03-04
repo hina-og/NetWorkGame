@@ -12,7 +12,7 @@
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
 {
-	job_ = 0;//0:Hunter
+	job_ = 1;//0:Hunter
 }
 
 void PlayScene::Initialize()

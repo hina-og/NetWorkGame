@@ -4,8 +4,8 @@
 class Runner
 	: public Player
 {
-	const int initPosX = 1280 / 2;
-	const int initPosY = 720 / 2;
+	const int initPosX = 1280 / 2 - 20;
+	const int initPosY = 720 / 2 - 20;
 
 	
 

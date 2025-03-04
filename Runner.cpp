@@ -10,6 +10,10 @@ Runner::Runner(GameObject* parent)
 
 void Runner::Initialize()
 {
+    transform_.position_.x = initPosX;
+    transform_.position_.y = initPosY;
+
+    speed_ = 1;
 }
 
 void Runner::Update()

@@ -2,10 +2,10 @@
 #include <sstream>
 
 
-//const char* SERVER_ADDRESS{ "192.168.43.1" };
+const char* SERVER_ADDRESS{ "192.168.43.1" };
 
 
-const char* SERVER_ADDRESS{ "192.168.33.6" };
+//const char* SERVER_ADDRESS{ "192.168.43.54" };
 
 
 const unsigned short SERVER_PORT = 10654;
@@ -61,19 +61,26 @@ void Client::Recv()
 	IPDATA serverIP;
 	int serverPort;
 
+	std::stringstream ss;
+	std::vector<std::string> pStr;
+	std::string recvData;
+
 	int ret = NetWorkRecvUDP(sock, &serverIP, &serverPort, data, sizeof(data), FALSE);
 	if (ret > 0)
 	{
+		std::string playerNum = 0;
+		ss << data;
+		std::getline(ss, playerNum, '|');
 
 		//std::string receivedStr(data, ret);
 		//std::stringstream ss(receivedStr);
 		//std::string token;
-
+		//
 		//std::getline(ss, token, '|');  // プレイヤー数を取得
 		//int playerCount = std::stoi(token);
-
+		//
 		//std::vector<PLAYER> newPlayerList;
-
+		//
 		//for (int i = 0; i < playerCount; i++)
 		//{
 		//	std::getline(ss, token, '|');
@@ -85,28 +92,31 @@ void Client::Recv()
 		//		p.y = std::stoi(token.substr(5, 3));
 		//		p.state = std::stoi(token.substr(8, 1));
 		//		p.playerID = std::stoi(token.substr(9, 4));
-
+		//
 		//		newPlayerList.push_back(p);
 		//	}
 		//}
-
+		//
 		//playerList = newPlayerList; // 受信データで更新
 
-		pData = {};
-		// job: 1バイト目（00 → Hunter、01 → Runner）
-		pData.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;
+		for (int i = 0; i < stoi(playerNum); i++)
+		{
+			pData = {};
+			// job: 1バイト目（0 → Hunter、1 → Runner）
+			pData.job = (data[2] == '0');
 
-		// x: 2-5バイト目（1000） => data[1]からdata[4]
-		pData.x = std::stoi(std::string(data + 1, 4));
+			// x: 2-5バイト目（1000） => data[3]からdata[6]
+			pData.x = std::stoi(std::string(data + 3, 4));
 
-		// y: 6-8バイト目（200） => data[5]からdata[7]
-		pData.y = std::stoi(std::string(data + 5, 3));
+			// y: 6-8バイト目（200） => data[7]からdata[9]
+			pData.y = std::stoi(std::string(data + 7, 3));
 
-		// state: 9バイト目（3）
-		pData.state = std::stoi(std::string(data + 8, 1));
+			// state: 9バイト目（3）
+			pData.state = std::stoi(std::string(data + 10, 1));
 
-		// playerID: 10-13バイト目（1234）
-		pData.playerID = std::stoi(std::string(data + 9, 4));
+			// playerID: 10-13バイト目（1234）
+			pData.playerID = std::stoi(std::string(data + 11, 4));
+		}
 	}
 }
 
