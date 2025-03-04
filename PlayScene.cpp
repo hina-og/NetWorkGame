@@ -8,6 +8,7 @@
 #include"EyeIcon.h"
 #include"SpeedUpIcon.h"
 
+const int MAX_PLAYERS = 1;
 
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
@@ -27,6 +28,11 @@ void PlayScene::Initialize()
 	else
 	{
 		Instantiate<Hunter>(this);
+	}
+
+	for (int i = 0; i < MAX_PLAYERS; i++) {
+		Runner* pRunner = Instantiate<Runner>(this);
+		/*pRunner->SetPosition();*/
 	}
 
 	/*Instantiate<Item>(this);*/
