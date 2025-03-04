@@ -3,9 +3,9 @@
 
 
 //const char* SERVER_ADDRESS{ "192.168.43.1" };
+//const char* SERVER_ADDRESS{ "192.168.33.6" };
 
-
-const char* SERVER_ADDRESS{ "192.168.33.6" };
+const char* SERVER_ADDRESS{ "192.168.43.54" };
 
 
 const unsigned short SERVER_PORT = 10654;
