@@ -4,7 +4,7 @@
 Runner::Runner(GameObject* parent)
 {
     objectName_ = "Runner";
-
+    player_ = false;
     client = new Client();
 }
 
@@ -57,9 +57,11 @@ void Runner::Update()
     pData.state = 1;
 
    
-    client->SetSendData(pData);
-    client->Connect();
-    client->SetPlayerData(pData);
+    if (player_) { //自身が操作するplayerならデータを送って受け取る
+        client->SetSendData(pData);
+        client->Connect();
+        client->SetPlayerData(pData);
+    }
 }
 
 void Runner::Draw()

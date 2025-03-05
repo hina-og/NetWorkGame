@@ -65,6 +65,9 @@
     <ClCompile Include="Conect.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="AnotherPlayer.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\GameObject.h">
@@ -110,5 +113,8 @@
     <ClInclude Include="Conect.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="AnotherPlayer.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,8 @@ Client::Client()
 		return;
 	}
 	CharToIP(ipAddress);
+	firstSend = true;
+	Recved = false;
 }
 
 Client::~Client()
@@ -68,8 +70,16 @@ int Client::CharToIP(IPDATA &ipData)
 
 void Client::Send()
 {
+	
 	int serverPort = SERVER_PORT;
-	NetWorkSendUDP(sock, ipAddress, serverPort, data, sizeof(data));
+	if (firstSend) {
+		NetWorkSendUDP(sock, ipAddress, serverPort, data, sizeof(data));
+		firstSend = false;
+	}
+	if (Recved) {
+		NetWorkSendUDP(sock, ipAddress, serverPort, data, sizeof(data));
+		Recved = false;
+	}
 }
 
 void Client::Recv()
@@ -82,8 +92,9 @@ void Client::Recv()
 	std::string recvData;
 
 	int ret = NetWorkRecvUDP(sock, &serverIP, &serverPort, data, sizeof(data), FALSE);
-	if (ret > 0 && ret < sizeof(data))
+	if (ret > 0 )
 	{
+		Recved = true;
 		std::string playerNum = "";
 		ss << data;
 		std::getline(ss, playerNum, '|');
@@ -132,22 +143,59 @@ void Client::Recv()
 
 			// playerID: 10-13バイト目（1234）
 			pData.playerID = std::stoi(std::string(data + 11, 4));
+
+			//pData;
+			//if (i == 0) {
+			//	// job: 1バイト目（0 → Hunter、1 → Runner）
+			//	pData[i].job = (data[2] == '0');
+
+			//	// x: 2-5バイト目（1000） => data[3]からdata[6]
+			//	pData[i].x = std::stoi(std::string(data + 3, 4));
+
+			//	// y: 6-8バイト目（200） => data[7]からdata[9]
+			//	pData[i].y = std::stoi(std::string(data + 7, 3));
+
+			//	// state: 9バイト目（3）
+			//	pData[i].state = std::stoi(std::string(data + 10, 1));
+
+			//	// playerID: 10-13バイト目（1234）
+			//	pData[i].playerID = std::stoi(std::string(data + 11, 4));
+			//}
+			//else {
+			//	// job: 1バイト目（0 → Hunter、1 → Runner）
+			//	pData[i].job = data[2];
+
+			//	// x: 2-5バイト目（1000） => data[3]からdata[6]
+			//	pData[i].x = std::stoi(std::string(data + 3, 4));
+
+			//	// y: 6-8バイト目（200） => data[7]からdata[9]
+			//	pData[i].y = std::stoi(std::string(data + 7, 3));
+
+			//	// state: 9バイト目（3）
+			//	pData[i].state = std::stoi(std::string(data + 10, 1));
+
+			//	// playerID: 10-13バイト目（1234）
+			//	pData[i].playerID = std::stoi(std::string(data + 11, 4));
+			//}
+			//
 		}
 	}
 }
 
 void Client::SetSendData(bool _job, int _x, int _y, int _state, int _playerID)
 {
+	//memset(data, 0, sizeof(data)); // 送信バッファをクリア
 	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _job, _x, _y, _state, _playerID);
 }
 
 void Client::SetSendData(PLAYER _pData)
 {
-	/*snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);*/
-	int len = snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d%", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
+	memset(data, 0, sizeof(data)); // 送信バッファをクリア
+	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
+	/*int len = snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d%", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
 	if (len < 0 || len >= sizeof(data)) {
 
-	}
+	}*/
 }
 
 void Client::SetPlayerData(PLAYER& _pData)

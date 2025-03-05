@@ -21,5 +21,7 @@ public:
 
 	//ŠJ•ú
 	void Release() override;
+
+	bool Getjob() { return job_; }
 };
 

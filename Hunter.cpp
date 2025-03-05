@@ -7,10 +7,10 @@
 
 #define PI    3.1415926535897932384626433832795f
 
-Hunter::Hunter(GameObject* parent)
+Hunter::Hunter(GameObject* parent) 
 {
     objectName_ = "Hunter";
-
+    player_ = false;
     client = new Client();
 
     pData.job = 0;
@@ -75,10 +75,12 @@ void Hunter::Update()
     pData.y = transform_.position_.y;
     pData.state = 1;
 
-     WaitTimer(32);
-    client->SetSendData(pData);
-    client->Connect();
-    client->SetPlayerData(pData);
+    WaitTimer(16);
+    if (player_) { //自身が操作するplayerならデータを送って受け取る
+        client->SetSendData(pData);
+        client->Connect();
+        client->SetPlayerData(pData);
+    }
 }
 
 void Hunter::Draw()

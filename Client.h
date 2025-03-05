@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include <vector>
 
+const int MAX_PLAYERS = 2;
 
 struct PLAYER
 {
@@ -18,8 +19,10 @@ class Client
 	int sock;
 	IPDATA ipAddress;
 	PLAYER pData;
-
+	/*PLAYER pData[MAX_PLAYERS];*/
 	std::vector<PLAYER> playerList;
+	bool firstSend;
+	bool Recved;
 public:
 	Client();
 	~Client();
@@ -32,5 +35,6 @@ public:
 	void SetSendData(bool _job, int _x, int _y, int _state, int _playerID);
 	void SetSendData(PLAYER _pData);
 	void SetPlayerData(PLAYER& _pData);
+	/*PLAYER GetPlayersData(int num) { return pData[num]; }*/
 };
 

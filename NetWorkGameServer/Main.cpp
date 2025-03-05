@@ -288,6 +288,8 @@ void SetData(PLAYER _pData)
 
 #endif
 
+#if 1
+
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -415,3 +417,5 @@ void SetData(PLAYER _pData)
 	}
 	sendData.copy(data, sendData.size());
 }
+
+#endif

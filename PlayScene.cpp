@@ -7,13 +7,12 @@
 #include"Item.h"
 #include"EyeIcon.h"
 #include"SpeedUpIcon.h"
-
-const int MAX_PLAYERS = 1;
+#include"AnotherPlayer.h"
 
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
 {
-	job_ = 1;//0:Hunter
+	job_ = 0;//0:Hunter
 }
 
 void PlayScene::Initialize()
@@ -23,17 +22,23 @@ void PlayScene::Initialize()
 
 	if (job_)
 	{
-		Instantiate<Runner>(this);
+		Runner* pRunner = Instantiate<Runner>(this);
+		pRunner->SetPlayer(true);
 	}
 	else
 	{
-		Instantiate<Hunter>(this);
+		Hunter* pHunter = Instantiate<Hunter>(this);
+		pHunter->SetPlayer(true);
 	}
 
 	//for (int i = 0; i < MAX_PLAYERS; i++) {
 	//	Runner* pRunner = Instantiate<Runner>(this);
 	//	/*pRunner->SetPosition();*/
 	//}
+
+	/*AnotherPlayer* pAnotherPlayer = Instantiate<AnotherPlayer>(this);*/
+
+	
 
 	/*Instantiate<Item>(this);*/
 	for (int i = 0; i < 5; i++) {
