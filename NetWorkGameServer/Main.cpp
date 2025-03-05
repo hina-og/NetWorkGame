@@ -1,5 +1,5 @@
 
-
+#if 0
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -141,7 +141,7 @@ void SetData(PLAYER _pData)
 
 	//}
 }
-
+#endif
 #if 0
 
 #include <iostream>

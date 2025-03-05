@@ -100,7 +100,7 @@ void Runner::Update()
         }
     }
     prevPlayerList = playerList;
-}
+
     if (player_) { //自身が操作するplayerならデータを送って受け取る
         client->SetSendData(pData);
         client->Connect();
