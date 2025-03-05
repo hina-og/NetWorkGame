@@ -76,10 +76,12 @@ void Hunter::Update()
     pData.y = transform_.position_.y;
     pData.state = 1;
 
-     WaitTimer(32);
-    client->SetSendData(pData);
-    client->Connect();
-    client->SetPlayerData(playerList);
+     if (player_) 
+     { //自身が操作するplayerならデータを送って受け取る
+         client->SetSendData(pData);
+         client->Connect();
+         client->SetPlayerData(pData);
+     }
 
     if (client->AddPlayerNum() > 0)//通信しているプレイヤーが増えたら
     {
