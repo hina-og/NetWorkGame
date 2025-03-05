@@ -60,6 +60,7 @@ void Runner::Update()
     pData.y = transform_.position_.y;
     pData.state = 1;
 
+   
     client->SetSendData(pData);
     client->Connect();
     client->SetPlayerData(playerList);

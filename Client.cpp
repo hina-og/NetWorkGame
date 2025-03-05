@@ -14,6 +14,9 @@ char data[1024];
 Client::Client()
 {
 	sock = MakeUDPSocket(-1);
+	if (sock == -1) {
+		return;
+	}
 	CharToIP(ipAddress);
 	prevPlayerNum = 1;
 	nowPlayerNum = 1;
@@ -32,6 +35,19 @@ void Client::Connect()
 
 int Client::CharToIP(IPDATA &ipData)
 {
+	//unsigned int ip[4];
+	//int parsed = sscanf(SERVER_ADDRESS, "%u.%u.%u.%u", &ip[0], &ip[1], &ip[2], &ip[3]);
+
+	//if (parsed == 4) {
+	//	ipData.d1 = ip[0];
+	//	ipData.d2 = ip[1];
+	//	ipData.d3 = ip[2];
+	//	ipData.d4 = ip[3];
+	//	return 0; // ¬Œ÷
+	//}
+
+	//return -1; // Ž¸”s
+
 	unsigned int ip[4];
 
 	std::stringstream ss(SERVER_ADDRESS);
@@ -69,9 +85,9 @@ void Client::Recv()
 	std::string recvData;
 
 	int ret = NetWorkRecvUDP(sock, &serverIP, &serverPort, data, sizeof(data), FALSE);
-	if (ret > 0)
+	if (ret > 0 && ret < sizeof(data))
 	{
-		std::string playerNum;
+		std::string playerNum = "";
 		ss << data;
 		std::getline(ss, playerNum, '|');
 		nowPlayerNum = stoi(playerNum);
@@ -99,7 +115,11 @@ void Client::SetSendData(bool _job, int _x, int _y, int _state, int _playerID)
 
 void Client::SetSendData(PLAYER _pData)
 {
-	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
+	/*snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);*/
+	int len = snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d%", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
+	if (len < 0 || len >= sizeof(data)) {
+
+	}
 }
 
 void Client::SetPlayerData(std::vector<PLAYER>& _pData)
