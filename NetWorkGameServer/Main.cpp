@@ -1,3 +1,147 @@
+
+
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <DxLib.h>
+#include <vector>
+
+const unsigned short SERVER_PORT = 10654;
+char data[1024];
+
+struct PLAYER
+{
+	bool job;      // 0: Hunter, 1: Runner
+	int x, y;      // x: 4 digits, y: 3 digits
+	int state;
+	int playerID;  // 4 digits
+};
+
+std::vector<PLAYER> playerList;
+std::vector<IPDATA> clientIPs;
+std::vector<int> clientPorts;
+
+const int MAX_PLAYERS = 2;
+
+int MakePlayerID();
+void SetData(PLAYER _pData);
+
+int main()
+{
+	std::cout << "サーバー" << std::endl;
+
+	// Create socket
+	int sock;
+	sock = MakeUDPSocket(SERVER_PORT);
+
+	// Main loop to handle incoming data
+	while (ProcessMessage() == 0)
+	{
+		IPDATA playerIP = {}; // Player's IP address
+		int playerPort = 0;
+
+		// Receive data
+		int ret = NetWorkRecvUDP(sock, &playerIP, &playerPort, data, sizeof(data), FALSE);
+		if (ret > 0)
+		{
+			std::cout << "Received data" << std::endl;
+
+			PLAYER p = {}; // Store the received player data
+
+			// Decode the received data into the PLAYER structure
+			p.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;
+			p.x = std::stoi(std::string(data + 1, 4));
+			p.y = std::stoi(std::string(data + 5, 3));
+			p.state = std::stoi(std::string(data + 8, 1));
+			p.playerID = std::stoi(std::string(data + 9, 4));
+
+			// Display the player data
+			std::cout << "job: " << p.job << ", x: " << p.x << ", y: " << p.y
+				<< ", state: " << p.state << ", playerID: " << p.playerID << std::endl;
+
+			if (p.playerID == 0)
+			{
+				p.playerID = MakePlayerID();
+				if (playerList.size() == 0)
+				{
+					playerList.push_back(p);//Listに追加する
+				}
+			}
+
+			bool playerExists = false;
+			for (size_t i = 0; i < playerList.size(); ++i)
+			{
+				if (p.playerID == playerList[i].playerID)
+				{
+					playerExists = true;
+					break;
+				}
+			}
+
+			if (!playerExists)
+			{
+				playerList.push_back(p);
+				clientIPs.push_back(playerIP);
+				clientPorts.push_back(playerPort);
+			}
+
+			// Set the data to send to clients
+			SetData(p);
+
+			// Send data to all connected clients
+			for (int i = 0; i < playerList.size(); i++)
+			{
+				int sendResult = NetWorkSendUDP(sock, clientIPs[i], clientPorts[i], data, sizeof(data));
+
+				if (sendResult > 0)
+				{
+					std::cout << "Sent data to client with ID: " << playerList[i].playerID << std::endl;
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
+int MakePlayerID()
+{
+	int ID = rand() % 9999;
+	for (int i = 0; i < playerList.size(); i++)
+	{
+		if (ID == playerList[i].playerID)
+		{
+			i = 0;
+			ID = rand() % 9999;
+			continue;
+		}
+	}
+	return ID;
+}
+
+void SetData(PLAYER _pData)
+{
+	std::string sendData = std::to_string(playerList.size()); // Start with the player count
+	sendData += "|";
+
+	for (const auto& player : playerList)
+	{
+		snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", player.job, player.x, player.y, player.state, player.playerID);
+		std::string str = std::string(data, sizeof(data));
+		sendData += str; // Append each player's data
+	}
+	//for (int i = 0; i < sendData.size(); i++)
+	//{
+	//	data[i] = sendData[i];
+	//	if (sendData[i] == '\0')
+	//	{
+	//		data[i] = '|';
+	//		break;
+	//	}
+
+	//}
+}
+
 #if 0
 
 #include <iostream>
@@ -185,7 +329,7 @@ int main()
 	// パケット受信
 	while (ProcessMessage() == 0)
 	{
-		
+
 		IPDATA playerIP = {};//送信側のIPアドレス
 		int playerPort = 0;
 
@@ -279,7 +423,7 @@ void SetData(PLAYER _pData)
 	sendData += "|";
 	for (const auto& player : playerList)
 	{
-		snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d",player.job, player.x, player.y, player.state, player.playerID);
+		snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", player.job, player.x, player.y, player.state, player.playerID);
 
 		sendData += std::string(data, sizeof(data)) + "|"; // 各プレイヤーのデータを追加
 	}

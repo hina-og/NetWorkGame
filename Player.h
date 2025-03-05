@@ -2,6 +2,7 @@
 #include "Engine/GameObject.h"
 #include "Client.h"
 #include "Stage.h"
+#include <vector>
 
 class Player
 	: public GameObject
@@ -12,6 +13,10 @@ protected:
 	int speed_;
 	bool player_;
 
+	
+
+	std::vector<PLAYER> prevPlayerList;
+	std::vector<PLAYER> playerList;
 	PLAYER pData;
 	Client* client;
 
@@ -19,6 +24,10 @@ protected:
 	bool CollisionStage(Stage* stage);
 	bool CollisionStageX(Stage* stage, int _x1, int _x2);
 	bool CollisionStageY(Stage* stage, int _x1, int _x2);
+
+public:
+	bool me;//©•ª‚ª‘€ì‚·‚éƒLƒƒƒ‰‚©‚Ç‚¤‚©
+	void SetData(PLAYER _pData);
 public:
 	void SetPlayer(bool _player) { player_ = _player; }
 	auto ClinetPointer() { return client; }

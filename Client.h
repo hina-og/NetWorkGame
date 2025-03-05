@@ -19,6 +19,9 @@ class Client
 	int sock;
 	IPDATA ipAddress;
 	PLAYER pData;
+
+	int prevPlayerNum;
+	int nowPlayerNum;
 	/*PLAYER pData[MAX_PLAYERS];*/
 	std::vector<PLAYER> playerList;
 	bool firstSend;
@@ -34,6 +37,9 @@ public:
 
 	void SetSendData(bool _job, int _x, int _y, int _state, int _playerID);
 	void SetSendData(PLAYER _pData);
+	void SetPlayerData(std::vector<PLAYER>& _pData);
+
+	int AddPlayerNum();
 	void SetPlayerData(PLAYER& _pData);
 	/*PLAYER GetPlayersData(int num) { return pData[num]; }*/
 };
