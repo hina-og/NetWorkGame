@@ -2,10 +2,10 @@
 #include <sstream>
 
 
-const char* SERVER_ADDRESS{ "192.168.43.1" };
+//const char* SERVER_ADDRESS{ "192.168.43.1" };
 //const char* SERVER_ADDRESS{ "192.168.33.6" };
 
-//const char* SERVER_ADDRESS{ "192.168.43.54" };
+const char* SERVER_ADDRESS{ "192.168.43.54" };
 
 
 const unsigned short SERVER_PORT = 10654;
@@ -103,40 +103,40 @@ void Client::Recv()
 		std::string playerNum = "";
 		ss << data;
 		std::getline(ss, playerNum, '|');
-		nowPlayerNum = stoi(playerNum);
-		for (int i = 0; i < stoi(playerNum); i++)
-		{
-			std::getline(ss, pStr[i], '|');
+		//nowPlayerNum = stoi(playerNum);
+		//for (int i = 0; i < stoi(playerNum); i++)
+		//{
+		//	std::getline(ss, pStr[i], '|');
 
-			pData = 
-			{
-				(pStr[0] == "0"),//job
-				std::stoi(pStr[i].substr(1,  4)),//x : ２文字目から４文字
-				std::stoi(pStr[i].substr(5,  3)),//y : ４文字目から３文字
-				std::stoi(pStr[i].substr(8, 1)), //state : ７文字目から１文字
-				std::stoi(pStr[i].substr(9, 4))  //ID : ８文字目から４文字
-			};
-			playerList[i] = pData;
-			// playerID: 10-13バイト目（1234）
-			pData.playerID = std::stoi(std::string(data + 11, 4));
+		//	pData = 
+		//	{
+		//		(pStr[0] == "0"),//job
+		//		std::stoi(pStr[i].substr(1,  4)),//x : ２文字目から４文字
+		//		std::stoi(pStr[i].substr(5,  3)),//y : ４文字目から３文字
+		//		std::stoi(pStr[i].substr(8, 1)), //state : ７文字目から１文字
+		//		std::stoi(pStr[i].substr(9, 4))  //ID : ８文字目から４文字
+		//	};
+		//	playerList[i] = pData;
+		//	// playerID: 10-13バイト目（1234）
+		//	pData.playerID = std::stoi(std::string(data + 11, 4));
+		for (int i = 0; i < stoi(playerNum); i++){
+			pData;
+			if (i == 0) {
+				// job: 1バイト目（0 → Hunter、1 → Runner）
+				pData.job = (data[2] == '0');
 
-			//pData;
-			//if (i == 0) {
-			//	// job: 1バイト目（0 → Hunter、1 → Runner）
-			//	pData[i].job = (data[2] == '0');
+				// x: 2-5バイト目（1000） => data[3]からdata[6]
+				pData.x = std::stoi(std::string(data + 3, 4));
 
-			//	// x: 2-5バイト目（1000） => data[3]からdata[6]
-			//	pData[i].x = std::stoi(std::string(data + 3, 4));
+				// y: 6-8バイト目（200） => data[7]からdata[9]
+				pData.y = std::stoi(std::string(data + 7, 3));
 
-			//	// y: 6-8バイト目（200） => data[7]からdata[9]
-			//	pData[i].y = std::stoi(std::string(data + 7, 3));
+				// state: 9バイト目（3）
+				pData.state = std::stoi(std::string(data + 10, 1));
 
-			//	// state: 9バイト目（3）
-			//	pData[i].state = std::stoi(std::string(data + 10, 1));
-
-			//	// playerID: 10-13バイト目（1234）
-			//	pData[i].playerID = std::stoi(std::string(data + 11, 4));
-			//}
+				// playerID: 10-13バイト目（1234）
+				pData.playerID = std::stoi(std::string(data + 11, 4));
+			}
 			//else {
 			//	// job: 1バイト目（0 → Hunter、1 → Runner）
 			//	pData[i].job = data[2];
@@ -152,8 +152,7 @@ void Client::Recv()
 
 			//	// playerID: 10-13バイト目（1234）
 			//	pData[i].playerID = std::stoi(std::string(data + 11, 4));
-			//}
-			//
+			//}	
 		}
 	}
 }
