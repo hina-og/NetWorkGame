@@ -432,7 +432,7 @@ void SetData(PLAYER _pData)
 
 #endif
 
-#if 1
+#if 0
 
 #include <iostream>
 #include <cstring>
@@ -563,3 +563,177 @@ void SetData(PLAYER _pData)
 }
 
 #endif
+
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <DxLib.h>
+#include <vector>
+//#include <mutex>
+//
+//std::mutex mtx;
+
+const unsigned short SERVER_PORT = 8080;
+char data[1024];
+const int MAX_PLAYERS = 3;
+
+struct PLAYER
+{
+	bool job;      // 0: Hunter, 1: Runner
+	int x, y;      // x: 4 digits, y: 3 digits
+	int state;
+	int playerID;  // 4 digits
+};
+
+std::vector<PLAYER> playerList;
+std::vector<IPDATA> clientIPs;
+std::vector<int> clientPorts;
+
+//const int MAX_PLAYERS = 2;
+
+int MakePlayerID();
+void SetData(PLAYER _pData);
+
+int main()
+{
+	std::cout << "サーバー" << std::endl;
+
+	// Create socket
+	int sock;
+	sock = MakeUDPSocket(SERVER_PORT);
+
+
+	// Main loop to handle incoming data
+	while (ProcessMessage() == 0)
+	{
+		IPDATA playerIP = {}; // Player's IP address
+		int playerPort = 0;
+
+		// Receive data
+		int ret = NetWorkRecvUDP(sock, &playerIP, &playerPort, data, sizeof(data), FALSE);
+		/*if (ret <= 0) {
+			std::cout << "Failed to receive data. Ret" << ret << std::endl;
+			continue;
+		}*/
+		if (ret > 0)
+		{
+			std::cout << "Received data" << std::endl;
+
+			PLAYER p = {}; // Store the received player data
+
+			// Decode the received data into the PLAYER structure
+			p.job = (data[0] == '0' && data[1] == '0') ? 0 : 1;
+			p.x = std::stoi(std::string(data + 1, 4));
+			p.y = std::stoi(std::string(data + 5, 3));
+			p.state = std::stoi(std::string(data + 8, 1));
+			p.playerID = std::stoi(std::string(data + 9, 4));
+
+			// Display the player data
+			std::cout << "job: " << p.job << ", x: " << p.x << ", y: " << p.y
+				<< ", state: " << p.state << ", playerID: " << p.playerID << std::endl;
+
+			if (p.playerID == 0)
+			{
+				p.playerID = MakePlayerID();
+			}
+
+			bool playerExists = false;
+			for (size_t i = 0; i < playerList.size(); ++i)
+			{
+				if (p.playerID == playerList[i].playerID)
+				{
+					playerExists = true;
+					break;
+				}
+			}
+			std::cout << "job: " << p.job << ", x: " << p.x << ", y: " << p.y
+				<< ", state: " << p.state << ", playerID: " << p.playerID << std::endl;
+			std::cout << "d1: " << (int)playerIP.d1 << ", d2: " << (int)playerIP.d2 << ", d3: " << (int)playerIP.d3 << ", d4: " << (int)playerIP.d4 << std::endl;
+			std::cout << "port: " << playerPort << std::endl;
+
+			if (!playerExists)
+			{
+				/*AddClient(playerIP,playerPort,p);*/
+				playerList.push_back(p);
+				clientIPs.push_back(playerIP);
+				clientPorts.push_back(playerPort);
+			}
+
+			// Set the data to send to clients
+			SetData(p);
+
+			// Send data to all connected clients
+			for (size_t i = 0; i < playerList.size(); i++)
+			{
+				int sendResult = NetWorkSendUDP(sock, clientIPs[i], clientPorts[i], data, sizeof(data));
+
+				if (sendResult > 0)
+				{
+					std::cout << "Sent data to client with ID: " << playerList[i].playerID << std::endl;
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
+int MakePlayerID()
+{
+
+	int ID = GetRand(9999); /*rand() % 9999*/
+	bool isDuplicate = false;
+
+	// IDがゼロだった場合は再生成
+	while (ID == 0) {
+		ID = GetRand(9999);
+	}
+
+	// playerList内に同じIDがあるかチェック
+	for (int i = 0; i < playerList.size(); i++)
+	{
+		if (ID == playerList[i].playerID) // 同じIDがすでにあるなら
+		{
+			isDuplicate = true;
+			break; // 重複が見つかったのでループを抜ける
+		}
+	}
+
+	// 重複があれば新しいIDを生成
+	while (isDuplicate)
+	{
+		ID = GetRand(9999); /*rand() % 9999*/
+		isDuplicate = false;
+
+		// IDがゼロだった場合は再生成
+		while (ID == 0) {
+			ID = GetRand(9999);
+		}
+
+		for (int i = 0; i < playerList.size(); i++)
+		{
+			if (ID == playerList[i].playerID) // 再度重複がないかチェック
+			{
+				isDuplicate = true;
+				break; // 重複が見つかったので新しいIDを生成
+			}
+		}
+	}
+
+	return ID;
+}
+
+void SetData(PLAYER _pData)
+{
+	std::string sendData = std::to_string(playerList.size()); // Start with the player count
+	sendData += "|";
+
+	for (const auto& player : playerList)
+	{
+		snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", player.job, player.x, player.y, player.state, player.playerID);
+		sendData += std::string(data, sizeof(data)) + "|"; // Append each player's data
+	}
+	sendData.copy(data, sendData.size());
+	/*std::memcpy(data, sendData.c_str(), sendData.size());*/
+	/*data[sendData.size()] = '\0';*/
+}

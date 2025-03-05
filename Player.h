@@ -2,6 +2,7 @@
 #include "Engine/GameObject.h"
 #include "Client.h"
 #include "Stage.h"
+#include"Camera.h"
 #include <vector>
 
 class Player
@@ -13,6 +14,12 @@ protected:
 	int speed_;
 	bool player_;
 
+	XMINT2 position_;
+	XMINT2 num_;
+	bool IsOnLoad_;
+	bool IsAlive_;
+	Stage* stage;
+	Camera* cam;
 	
 
 	std::vector<PLAYER> prevPlayerList;

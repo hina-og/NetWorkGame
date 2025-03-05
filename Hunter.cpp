@@ -28,8 +28,26 @@ void Hunter::Initialize()
     assert(hArrow_ >= 0);
     speed_ = 2;
 
-    transform_.position_.x = initPosX;
-    transform_.position_.y = initPosY;
+    position_ = { 0,0 };
+    num_ = { 0,0 };
+    IsOnLoad_ = false;
+    IsAlive_ = false;
+    stage = GetParent()->FindGameObject<Stage>();
+    cam = GetParent()->FindGameObject<Camera>();
+
+    if (!IsAlive_) {
+        while (!IsOnLoad_) {
+            num_ = { GetRand(STAGE::WIDTH),GetRand(STAGE::HEIGHT) };
+            if (stage->GetStage(num_.y, num_.x) <= 0) {
+                position_ = { num_.x * STAGE::TILE_SIZE,num_.y * STAGE::TILE_SIZE };
+                IsOnLoad_ = true;
+            }
+        }
+    }
+  /*  transform_.position_.x = initPosX;
+    transform_.position_.y = initPosY;*/
+    transform_.position_.x = position_.x;
+    transform_.position_.y = position_.y; 
 
     state_ = CANLOOK;
 }
@@ -72,8 +90,8 @@ void Hunter::Update()
         transform_.position_.y = prevY;
     }
     pData.job = 0;
-    pData.x = transform_.position_.x;
-    pData.y = transform_.position_.y;
+    pData.x = transform_.position_.x /*- STAGE::TILE_SIZE /2*/;
+    pData.y = transform_.position_.y /*- STAGE::TILE_SIZE/2*/;
     pData.state = 1;
 
      if (player_) 
@@ -147,7 +165,7 @@ void Hunter::Draw()
     default:
         break;
     }
-    DrawCircle(transform_.position_.x, transform_.position_.y, STAGE::TILE_SIZE / 2, GetColor(0, 0, 255), TRUE);
+    DrawCircle(transform_.position_.x , transform_.position_.y , STAGE::TILE_SIZE / 2, GetColor(0, 0, 255), TRUE);
     DrawBox(transform_.position_.x - STAGE::TILE_SIZE / 2 + 1, transform_.position_.y - STAGE::TILE_SIZE / 2 + 1, transform_.position_.x + STAGE::TILE_SIZE / 2, transform_.position_.y + STAGE::TILE_SIZE / 2, GetColor(255, 0, 0), FALSE);
 }
 

@@ -5,11 +5,11 @@
 //const char* SERVER_ADDRESS{ "192.168.43.1" };
 //const char* SERVER_ADDRESS{ "192.168.33.6" };
 
-const char* SERVER_ADDRESS{ "192.168.43.54" };
+//const char* SERVER_ADDRESS{ "192.168.43.54" };
+const char* SERVER_ADDRESS{ "192.168.3.15 "};
 
+const unsigned short SERVER_PORT = 8080; 
 
-const unsigned short SERVER_PORT = 10654;
-char data[1024];
 
 Client::Client()
 {

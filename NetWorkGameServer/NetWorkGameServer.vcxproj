@@ -71,8 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\GE2A04\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230535\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\anber\Desktop\チーム制作\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230641\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\GE2A04\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230535\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\anber\Desktop\チーム制作\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230641\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\GE2A04\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230535\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\anber\Desktop\チーム制作\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230641\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(IncludePath);C:\プログラムファイル\DxLib_VC\DxLib_VC\プロジェクトに追加すべきファイル_VC用</IncludePath>
+    <LibraryPath>D:\GE2A04\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230535\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\anber\Desktop\チーム制作\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\230641\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(LibraryPath);C:\プログラムファイル\DxLib_VC\DxLib_VC\プロジェクトに追加すべきファイル_VC用</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);;C:\プログラムファイル\DxLib_VC\DxLib_VC\プロジェクトに追加すべきファイル_VC用</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\プログラムファイル\DxLib_VC\DxLib_VC\プロジェクトに追加すべきファイル_VC用</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

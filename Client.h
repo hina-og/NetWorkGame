@@ -26,6 +26,7 @@ class Client
 	std::vector<PLAYER> playerList;
 	bool firstSend;
 	bool Recved;
+	char data[1024];
 public:
 	Client();
 	~Client();
