@@ -30,10 +30,10 @@ void PlayScene::Initialize()
 		Instantiate<Hunter>(this);
 	}
 
-	for (int i = 0; i < MAX_PLAYERS; i++) {
-		Runner* pRunner = Instantiate<Runner>(this);
-		/*pRunner->SetPosition();*/
-	}
+	//for (int i = 0; i < MAX_PLAYERS; i++) {
+	//	Runner* pRunner = Instantiate<Runner>(this);
+	//	/*pRunner->SetPosition();*/
+	//}
 
 	/*Instantiate<Item>(this);*/
 	for (int i = 0; i < 5; i++) {

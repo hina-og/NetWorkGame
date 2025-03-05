@@ -7,8 +7,6 @@ class Runner
 	const int initPosX = 1280 / 2 - 20;
 	const int initPosY = 720 / 2 - 20;
 
-	
-
 	float angle_;
 
 	bool IsOnLoad_;

@@ -3,24 +3,6 @@
 #include "Runner.h"
 #include "Hunter.h"
 
-//void Player::Initialize()
-//{
-//	switch (job_) {
-//	case RUNNER:
-//	{
-//		Instantiate<Runner>(this);
-//		break;
-//	}
-//	case HUNTER:
-//	{
-//		Instantiate<Hunter>(this);
-//		break;
-//	}
-//	default:
-//		break;
-//	}
-//}
-
 float Player::DirectionCalculation(XMFLOAT3 _position)
 {
     // プレイヤー位置と自分の位置を取得
@@ -84,4 +66,9 @@ bool Player::CollisionStageY(Stage* stage, int _y1, int _y2)
         return true;
     }
     return false;
+}
+
+void Player::SetData(PLAYER _pData)
+{
+    pData = _pData;
 }

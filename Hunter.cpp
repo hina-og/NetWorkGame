@@ -12,7 +12,8 @@ Hunter::Hunter(GameObject* parent)
     objectName_ = "Hunter";
 
     client = new Client();
-
+    pData.playerID = 0;
+    me = true;
 }
 
 void Hunter::Initialize()
@@ -29,7 +30,6 @@ void Hunter::Initialize()
 
 void Hunter::Update()
 {
-
     int prevX = transform_.position_.x;
     int prevY = transform_.position_.y;
 
@@ -72,7 +72,43 @@ void Hunter::Update()
 
     client->SetSendData(pData);
     client->Connect();
-    client->SetPlayerData(pData);
+    client->SetPlayerData(playerList);
+
+    if (client->AddPlayerNum() > 0)//通信しているプレイヤーが増えたら
+    {
+        int addNum = 0;
+        for (int i = 0; i < client->AddPlayerNum(); i++)
+        {
+            for (int prev = 0; prev < prevPlayerList.size(); prev++)
+            {
+                for (int now = 0; now < playerList.size(); now++)
+                {
+                    //前のフレームですでに通信済みのIDがあれば
+                    if (prevPlayerList[prev].playerID != playerList[now].playerID)
+                    {
+                        continue;
+                    }
+                    addNum = now;
+                    break;
+                }
+                if (addNum != 0)
+                    break;
+            }
+            if (playerList[addNum].job == 0)
+            {
+                Hunter* hunter = Instantiate<Hunter>(this);
+                hunter->SetData(playerList[addNum]);
+                hunter->me = false;
+            }
+            else
+            {
+                Runner* runner = Instantiate<Runner>(this);
+                runner->SetData(playerList[addNum]);
+                runner->me = false;
+            }
+        }
+    }
+    prevPlayerList = playerList;
 }
 
 void Hunter::Draw()
