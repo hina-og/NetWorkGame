@@ -61,9 +61,12 @@ void Runner::Update()
     pData.state = 1;
 
    
-    client->SetSendData(pData);
-    client->Connect();
-    client->SetPlayerData(playerList);
+    if (player_) 
+    { //自身が操作するplayerならデータを送って受け取る
+        client->SetSendData(pData);
+        client->Connect();
+        client->SetPlayerData(pData);
+    }
 
     if (client->AddPlayerNum() > 0)//通信しているプレイヤーが増えたら
     {
@@ -100,12 +103,6 @@ void Runner::Update()
         }
     }
     prevPlayerList = playerList;
-}
-    if (player_) { //自身が操作するplayerならデータを送って受け取る
-        client->SetSendData(pData);
-        client->Connect();
-        client->SetPlayerData(pData);
-    }
 }
 
 void Runner::Draw()

@@ -76,7 +76,7 @@ void Client::Send()
 	int serverPort = SERVER_PORT;
 	NetWorkSendUDP(sock, ipAddress, serverPort, data, sizeof(data));
 	prevPlayerNum = nowPlayerNum;
-}
+
 	if (firstSend) {
 		NetWorkSendUDP(sock, ipAddress, serverPort, data, sizeof(data));
 		firstSend = false;
@@ -168,16 +168,11 @@ void Client::SetSendData(PLAYER _pData)
 {
 	memset(data, 0, sizeof(data)); // 送信バッファをクリア
 	snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
-	/*int len = snprintf(data, sizeof(data), "%1d%04d%03d%1d%04d%", _pData.job, _pData.x, _pData.y, _pData.state, _pData.playerID);
-	if (len < 0 || len >= sizeof(data)) {
-
-	}
 }
 
 void Client::SetPlayerData(std::vector<PLAYER>& _pData)
 {
 	_pData = playerList;
-	}*/
 }
 
 int Client::AddPlayerNum()
@@ -188,4 +183,9 @@ int Client::AddPlayerNum()
 		pNum = nowPlayerNum - prevPlayerNum;
 	}
 	return pNum;
+}
+
+void Client::SetPlayerData(PLAYER& _pData)
+{
+
 }
