@@ -119,13 +119,6 @@ void Hunter::Update()
     }
     prevPlayerList = playerList;
 }
-    WaitTimer(16);
-    if (player_) { //自身が操作するplayerならデータを送って受け取る
-        client->SetSendData(pData);
-        client->Connect();
-        client->SetPlayerData(pData);
-    }
-}
 
 void Hunter::Draw()
 {

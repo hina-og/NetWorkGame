@@ -195,7 +195,3 @@ int Client::AddPlayerNum()
 	return pNum;
 }
 
-void Client::SetPlayerData(PLAYER& _pData)
-{
-
-}
